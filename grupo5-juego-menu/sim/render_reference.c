@@ -11,7 +11,9 @@ int main(void) {
     for(unsigned players=1;players<=2;++players) {
         console_init(&c); c.players=(uint8_t)players;
         console_step(&c,K_GAME1);
-        for(unsigned frame=0;frame<2;++frame) {
+        for(unsigned dir=0;dir<4;++dir) for(unsigned frame=0;frame<2;++frame) {
+            c.pac_direction[0]=(uint8_t)dir;
+            c.pac_direction[1]=(uint8_t)((dir+2)%4);
             c.ticks=frame; c.score[0]=67;
             if(!emit(&c)) return 1;
         }

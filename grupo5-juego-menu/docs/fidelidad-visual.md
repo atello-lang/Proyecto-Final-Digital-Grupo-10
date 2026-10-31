@@ -13,25 +13,33 @@ Compara índices de color con el render C; no es una prueba del navegador real.
 
 | Fixture | Píxeles comparados | Excluidos intencionalmente | Diferencias |
 |---|---:|---:|---:|
-| Menú inicial | 2688 | 1408: franja del nombre y pie compacto | 0 |
-| Nexo individual, cada fase 0/1 | 4048 | 48: tres sprites de 4×4 | 0 |
-| Nexo doble, cada fase 0/1 | 4032 | 64: cuatro sprites de 4×4 | 0 |
+| Menú inicial | 3008 | 1088: pie compacto | 0 |
+| PAC-MAN individual, cuatro direcciones × dos fases | 4096 | 0 | 0 |
+| PAC-MAN doble, cuatro direcciones × dos fases | 4096 | 0 | 0 |
 | Snake individual, inicial y primer paso | 3584 | 512: HUD inferior ampliado | 0 |
 | Snake doble, inicial y primer paso | 3584 | 512: HUD inferior ampliado | 0 |
 
-Nexo usa puntuación 67 en las fixtures para comprobar los dígitos corregidos.
-Sus dos fases se renderizan con posiciones fijas: no se afirma equivalencia de
-trayectorias/IA. Las exclusiones son explícitas en el script; no se afirma igualdad
-de todos los 4096 píxeles ni de todos los estados posibles.
+PAC-MAN usa puntuación 67 en las fixtures para comprobar los dígitos corregidos.
+Sus dos fases y cuatro direcciones se renderizan con posiciones fijas: los
+4096 píxeles coinciden en las 16 fixtures de PAC-MAN, incluidos personajes,
+fantasmas, paredes, puntos y HUD. No se afirma equivalencia de trayectorias/IA
+ni de todos los estados posibles. Menú y Snake mantienen las exclusiones indicadas.
 
-## Correcciones de esta revisión
+## Restauración de PAC-MAN
+
+Se recuperan los jugadores amarillo/verde con boca orientada y los fantasmas
+rojo/magenta con ojos blancos y pies alternados, directamente del HTML.
+El menú conserva la grafía compacta original «PACMAN»; resultados y documentación
+usan «PAC-MAN». La lógica funcional y el render de Snake no cambian.
+
+## Mejoras funcionales conservadas
 
 - Fuente 3×5: los dígitos 6 y 7 ahora coinciden con el original.
-- Nexo individual conserva la energía en la casilla donde aparecería J2.
-- El píxel cian indica que ambos exploradores comparten casilla.
+- PAC-MAN individual conserva la energía en la casilla donde aparecería J2.
+- El píxel cian indica que ambos jugadores comparten casilla.
 - En individual, flechas y WASD controlan J1 en ambos juegos. Ante teclas
   simultáneas, la prioridad fija es arriba, derecha, abajo, izquierda.
-- Nexo verifica el choque antes de recoger energía, como el HTML.
+- PAC-MAN verifica el choque antes de recoger energía, como el HTML.
 - Snake actualiza al superviviente y su puntuación antes de resolver un choque
   del rival en el mismo paso; actualiza también el indicador interno alive.
 - El generador verifica explícitamente modo y cantidad de jugadores de las
@@ -41,11 +49,11 @@ de todos los 4096 píxeles ni de todos los estados posibles.
 
 | Aspecto | HTML | Firmware C |
 |---|---|---|
-| Identidad laberinto | Personajes clásicos | Nexo: exploradores y drones originales, dos fases animadas |
+| Identidad laberinto | Personajes clásicos | PAC-MAN: jugadores y fantasmas originales, dos fases animadas |
 | Menú | Dos pantallas: juego, luego jugadores; flechas alternan | Una pantalla; arriba/abajo elige juego, izquierda/derecha jugadores; 1/2 inicia directamente |
 | Inicio por Enter | Confirma cada etapa | Inicia con selección visible |
 | Laberinto | Movimiento continuo, giro pendiente | Movimiento solo con tecla mantenida, sin giro en cola |
-| Enemigos | Buscan al más cercano, con decisiones pseudoaleatorias | Cada dron persigue al jugador asignado; ambos a J1 en individual; desempate fijo |
+| Enemigos | Buscan al más cercano, con decisiones pseudoaleatorias | Cada fantasma persigue al jugador asignado; ambos a J1 en individual; desempate fijo |
 | Controles | Eventos de pulsación | Máscara de teclas mantenidas; acciones de menú por flanco |
 | Pausa/salida | Escape pausa primero; Enter o P reanuda; R vuelve al menú | P pausa/reanuda; Escape va al menú; R reinicia; instrucciones visibles |
 | Resultados | Mensaje y récord | Juego, resultado, puntuaciones, récord de sesión e instrucciones |
@@ -61,10 +69,12 @@ crecimiento, tres vidas compartidas, cooperación y colisiones competitivas.
 ## Capturas actuales
 
 `make demo` produce PPM ampliados 6× sin interpolación. PNG revisados en
-`docs/capturas/`: `menu.png`, `nexo.png`, `snake.png`, `pausa.png`,
+`docs/capturas/`: `menu.png`, `pacman.png`, `snake.png`, `pausa.png`,
 `snake-solo.png`, `resultado.png` y mosaico `resumen.png`.
-`pacman.png` es una referencia histórica previa, no una captura actual.
-Las aserciones del generador evitan etiquetar Nexo como Snake o viceversa.
+`pacman.png` muestra ahora el estado inicial actual con dos jugadores.
+El archivo heredado `nexo.png` se actualiza con la misma imagen para conservar
+los archivos existentes; el mosaico también muestra PAC-MAN.
+Las aserciones del generador evitan etiquetar PAC-MAN como Snake o viceversa.
 
 ## Verificación y límites
 

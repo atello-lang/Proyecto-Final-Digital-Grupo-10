@@ -29,14 +29,15 @@ function compare(name,code,exclude){
   console.log(`${name}: ${checked} comparados, ${excluded} excluidos, ${differences} diferencias`);
   assert.equal(differences,0,name);
 }
-// Nombre Nexo y pie compacto son diferencias deliberadas.
-compare('menu',"menu()",(x,y)=>(y>=26&&y<31)||y>=47);
+// Solo el pie compacto difiere del menú HTML.
+compare('menu',"menu()",(_x,y)=>y>=47);
 for(const n of [1,2]){
   vm.runInContext(`playerCount=${n};selected='pac';start();state.score=67`,sandbox);
-  // Excluir SOLO rectángulos de sprites originales sustituidos por Nexo.
-  const sprite=(x,y)=>[[1,1],...(n===2?[[14,12]]:[]),[7,6],[8,7]]
-    .some(([sx,sy])=>x>=sx*4&&x<sx*4+4&&y>=sy*4&&y<sy*4+4);
-  for(let frame=0;frame<2;frame++)compare(`nexo ${n}J fase ${frame}`,`ticks=${frame};draw()`,sprite);
+  // Comparación completa: sprites, fantasmas y HUD, sin exclusiones.
+  const directions=[[0,-1],[1,0],[0,1],[-1,0]];
+  for(let dir=0;dir<4;dir++)for(let frame=0;frame<2;frame++)
+    compare(`PAC-MAN ${n}J dirección ${dir} fase ${frame}`,
+      `state.dir=${JSON.stringify([directions[dir],directions[(dir+2)%4]])};ticks=${frame};draw()`,()=>false);
   vm.runInContext(`playerCount=${n};selected='snake';start()`,sandbox);
   // HUD extendido C: tres cifras y SOLO; arena se compara completa.
   compare(`snake ${n}J inicial`,'draw()',(_x,y)=>y>=56);

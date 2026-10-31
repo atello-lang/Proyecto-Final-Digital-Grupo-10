@@ -14,7 +14,7 @@ Se conservan las reglas del código.
 | Archivo | Responsabilidad |
 |---|---|
 | console.c / console.h | Estado público, menú, pausa, reinicio y coordinación |
-| maze.c | Nexo: paredes, energía, exploradores y drones |
+| maze.c | PAC-MAN: paredes, energía, jugadores y fantasmas |
 | snake.c | Movimiento, crecimiento, alimento y colisiones simultáneas |
 | controls.c | Máscara abstracta a dirección; sin scan codes supuestos |
 | draw.c | Fuente, sprites y render de 4096 píxeles |
@@ -23,11 +23,11 @@ Se conservan las reglas del código.
 | internal.h | Ayudas geométricas e interfaz privada |
 | demo_host.c | Capturas en Linux, único módulo con stdio |
 
-No hay asignación dinámica ni recursión. Se conservan nombres PAC en la API para
-compatibilidad. Nexo introduce cascos con visor y drones en X dibujados para este
-proyecto, sin sprites oficiales. Conserva la geometría y el detalle cian de las
-paredes del prototipo; no se añadió ningún mapa externo. Los drones persiguen al
-jugador asignado cada dos pasos; en individual ambos persiguen al primero.
+No hay asignación dinámica ni recursión. PAC-MAN recupera los sprites del HTML:
+jugadores amarillo/verde con boca orientada y fantasmas rojo/magenta con ojos
+blancos y pies alternados. Conserva la geometría y el detalle cian de las paredes.
+Los fantasmas persiguen al jugador asignado cada dos pasos; en individual ambos
+persiguen al primero. La restauración visual no cambia estas reglas.
 
 La partida permanece inmóvil en pausa. P reanuda sin avanzar ese mismo paso.
 R reinicia durante partida/pausa; Enter repite desde resultado. Se conserva la
@@ -42,12 +42,12 @@ la puntuación interna de Snake se satura en 65535. La longitud máxima es 128.
 ## Verificación ejecutada
 
 - `make test` y `make demo`: pasan con C11, warnings tratados como errores.
-- Pruebas existentes conservadas, adaptando la expectativa del sprite nuevo.
+- Pruebas existentes conservadas, adaptando la expectativa del sprite original restaurado.
 - Nuevas pruebas: elección individual/doble, exclusión de J2 en individual,
-  victoria/derrota Nexo, derrota Snake individual, ganadores/empate competitivo,
+  victoria/derrota PAC-MAN, derrota Snake individual, ganadores/empate competitivo,
   choque de cabezas, crecimiento, pausa, reinicio, récord y adaptadores.
 - 1200 renders de partidas de ambos juegos/modos verifican colores 0..7 y
-  centinelas antes/después de los 4096 bytes. Revisión visual de seis capturas.
+  centinelas antes/después de los 4096 bytes. Revisión visual del mosaico de seis capturas.
 - `make sanitize`: AddressSanitizer y UndefinedBehaviorSanitizer pasan.
   LeakSanitizer se desactiva por incompatibilidad del entorno con ptrace;
   el motor no usa memoria dinámica.
@@ -58,15 +58,15 @@ la puntuación interna de Snake se satura en 65535. La longitud máxima es 128.
 
 Medido: `sizeof(Console)` = 1024 bytes en host; framebuffer lógico = 4096 bytes.
 No se incluyen dos framebuffers ni la memoria interna del controlador HUB75.
-Los objetos RV32I suman **8376 bytes** de código/constantes y cero datos globales:
-console 400, controls 124, maze 1432, snake 1616, draw 4520, services 128,
+Los objetos RV32I suman **8356 bytes** de código/constantes y cero datos globales:
+console 400, controls 124, maze 1432, snake 1616, draw 4500, services 128,
 platform 156. El estado y framebuffer los aporta el llamador; cero BSS en los
 objetos no significa que el programa no necesite RAM.
 
-Estimación base si todo reside en BRAM: 8376 + 1024 + 4096 = **13496 bytes**,
+Estimación base si todo reside en BRAM: 8356 + 1024 + 4096 = **13476 bytes**,
 antes de arranque, libgcc, pila, drivers, alineación y buffers del hardware.
 Los informes `.su` muestran marcos individuales de hasta 96 bytes; no son el
-máximo acumulado de pila. Reservar provisionalmente 1 KiB de pila da 14520 bytes
+máximo acumulado de pila. Reservar provisionalmente 1 KiB de pila da 14500 bytes
 antes de las otras dependencias, sin demostrar que ese presupuesto sea suficiente.
 El render es síncrono y su tiempo aún no se midió sobre FemtoRV32.
 

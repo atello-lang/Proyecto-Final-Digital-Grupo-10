@@ -27,7 +27,7 @@ enum {
     K_GAME1=1u<<10, K_GAME2=1u<<11, K_PAUSE=1u<<12, K_RESTART=1u<<13
 };
 
-/* Nombres PAC conservados en la API por compatibilidad; juego visible: Nexo. */
+/* PAC-MAN individual/cooperativo y Snake individual/competitivo. */
 typedef enum { MODE_MENU=0, MODE_PACMAN=1, MODE_SNAKE=2, MODE_RESULT=3 } Mode;
 typedef enum { RESULT_NONE=0, RESULT_PAC_WIN, RESULT_PAC_LOSE,
                RESULT_P1_WIN, RESULT_P2_WIN, RESULT_DRAW, RESULT_SOLO_LOSE } Result;

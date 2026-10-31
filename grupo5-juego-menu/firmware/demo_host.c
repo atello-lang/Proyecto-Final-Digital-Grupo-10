@@ -31,8 +31,13 @@ int main(void) {
     console_step(&c,K_GAME1);
     /* Captura inicial: comparable con el HTML justo al iniciar la partida. */
     assert(c.mode==MODE_PACMAN && c.players==2);
-    if(!snapshot("build/nexo.ppm",&c)) return 1;
-    console_step(&c,K_ESCAPE); console_step(&c,0);
+    if(!snapshot("build/pacman.ppm",&c)) return 1;
+    c.ticks=1;
+    if(!snapshot("build/pacman-fase1.ppm",&c)) return 1;
+    console_step(&c,K_ESCAPE); console_step(&c,K_LEFT); console_step(&c,K_GAME1);
+    assert(c.mode==MODE_PACMAN && c.players==1);
+    if(!snapshot("build/pacman-solo.ppm",&c)) return 1;
+    console_step(&c,K_ESCAPE); console_step(&c,K_RIGHT); console_step(&c,0);
     console_step(&c,K_GAME2);
     assert(c.mode==MODE_SNAKE && c.players==2);
     if(!snapshot("build/snake.ppm",&c)) return 1;
@@ -45,7 +50,7 @@ int main(void) {
     if(c.mode!=MODE_RESULT) return 1;
     if(!snapshot("build/resultado.ppm",&c)) return 1;
     printf("sizeof(Console)=%zu; framebuffer=%zu bytes\n",sizeof(c),sizeof(pixels));
-    printf("Capturas: build/menu.ppm, build/nexo.ppm y build/snake.ppm\n");
+    printf("Capturas: build/menu.ppm, build/pacman.ppm y build/snake.ppm\n");
     printf("Demostración C ejecutada en PC, no en la FPGA.\n");
     return 0;
 }

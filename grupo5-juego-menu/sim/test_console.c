@@ -54,7 +54,7 @@ static void test_visual_layout(void) {
     console_render(&c,f);
     assert(f[0]==COL_BLUE); /* laberinto desde fila 0 */
     assert(f[56u*64u]==COL_BLACK); /* HUD inferior */
-    assert(f[4u*64u+4u]==COL_YELLOW); /* casco Nexo */
+    assert(f[4u*64u+4u]==COL_BLACK); /* esquina vacía del sprite PAC-MAN */
     console_step(&c,K_ESCAPE);
     console_step(&c,0);
     console_step(&c,K_GAME2);
@@ -147,7 +147,7 @@ static void test_html_regressions(void) {
     console_step(&c,K_RIGHT); assert(c.pac[0].x==2 && c.score[0]==1);
     start(&c,2,1); assert(c.pellets_left+1u==dots);
     console_render(&c,a); c.ticks=1; console_render(&c,b);
-    assert(memcmp(a,b,sizeof(a))!=0); /* Dos fases de animación Nexo. */
+    assert(memcmp(a,b,sizeof(a))!=0); /* Dos fases de animación PAC-MAN. */
     c.pac[1]=c.pac[0]; console_render(&c,a);
     assert(a[c.pac[0].y*4*64+c.pac[0].x*4]==COL_CYAN);
     start(&c,1,1); c.ghosts[0]=(Cell){2,1};

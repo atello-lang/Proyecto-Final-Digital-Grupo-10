@@ -54,7 +54,7 @@ void pacman_tick(Console *c, uint16_t keys) {
     }
     if(ghost_collision(c)) goto hit;
     for(unsigned p=0;p<c->players;++p) take_pellet(c,p);
-    /* Drones: cada uno persigue al jugador asignado cada dos pasos. */
+    /* Fantasmas: cada uno persigue al jugador asignado cada dos pasos. */
     if((c->ticks%2u)==0u) for(unsigned g=0;g<2;++g) {
         Cell pos=c->ghosts[g], target=c->pac[g%c->players];
         int best=1000; Cell next=pos;

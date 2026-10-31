@@ -3,7 +3,7 @@
 Firmware C sin sistema operativo para integrar con FemtoRV32 en Tang Nano 9K.
 Validado en Linux y compilado a objetos RV32I; **no probado en FPGA**.
 
-- **Nexo**: explorar el laberinto, recoger energía y evitar drones. Un jugador o
+- **PAC-MAN**: explorar el laberinto, recoger energía y evitar fantasmas. Un jugador o
   dos en cooperación, tres vidas compartidas y puntuación de equipo.
 - **Snake**: individual o competitivo de dos jugadores, un punto por alimento,
   crecimiento hasta 128 segmentos, colisiones simultáneas y empate.
@@ -32,8 +32,8 @@ make sanitize
 make size-rv32
 ```
 
-`demo` genera PPM ampliados 6× sin interpolación en `build/`: menú, Nexo,
-Snake, pausa, Snake individual y resultado. PNG revisados en `docs/capturas/`.
+`demo` genera PPM ampliados 6× sin interpolación en `build/`: menú, PAC-MAN,
+sus dos fases y modo individual, Snake, pausa, Snake individual y resultado. PNG revisados en `docs/capturas/`.
 `size-rv32` requiere `riscv64-unknown-elf-gcc` (configurable con RISCV_CC),
 y produce objetos RV32I/ILP32; no una imagen arrancable.
 

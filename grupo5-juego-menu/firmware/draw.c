@@ -84,12 +84,15 @@ static void centered(uint8_t *f,const char *s,int y,uint8_t color) {
 static void pac_sprite(uint8_t *f,Cell p,unsigned player,unsigned direction,unsigned ticks) {
     int x=(int)p.x*4, y=(int)p.y*4;
     uint8_t col=player==0?COL_YELLOW:COL_GREEN;
-    /* Explorador: casco rectangular, visor orientado y dos botas. */
-    rect(f,x,y,4,3,col);
-    rect(f,x,y+3,1,1,col); rect(f,x+3,y+3,1,1,col);
-    rect(f,x+1,y+1,2,1,COL_BLACK);
-    dot(f,x+(direction==DIR_LEFT?1:2),y+1,COL_WHITE);
-    if(ticks%2u) dot(f,x+3,y,COL_CYAN);
+    /* Sprite 4x4 del HTML: boca orientada, dos fases. */
+    rect(f,x+1,y,2,4,col);
+    rect(f,x,y+1,4,2,col);
+    if(ticks%2u==0u) {
+        int px=x+(direction==DIR_LEFT?0:direction==DIR_RIGHT?2:1);
+        int py=y+(direction==DIR_UP?0:direction==DIR_DOWN?2:1);
+        rect(f,px,py,(direction==DIR_LEFT||direction==DIR_RIGHT)?2:1,
+                        (direction==DIR_UP||direction==DIR_DOWN)?2:1,COL_BLACK);
+    }
 }
 static void draw_pac(const Console *c,uint8_t *f) {
     for(unsigned y=0;y<GRID_H;++y) for(unsigned x=0;x<GRID_W;++x) {
@@ -103,11 +106,13 @@ static void draw_pac(const Console *c,uint8_t *f) {
     for(unsigned i=0;i<2;++i) {
         int x=c->ghosts[i].x*4, y=c->ghosts[i].y*4;
         uint8_t color=i==0?COL_RED:COL_MAGENTA;
-        /* Dron en X, núcleo luminoso; sin silueta de fantasma. */
-        dot(f,x,y,color); dot(f,x+3,y,color);
-        dot(f,x,y+3,color); dot(f,x+3,y+3,color);
-        rect(f,x+1,y+1,2,2,color);
-        dot(f,x+1+(int)(c->ticks%2u),y+1,COL_WHITE);
+        /* Fantasma del HTML: ojos blancos y pies alternados. */
+        rect(f,x+1,y,2,1,color);
+        rect(f,x,y+1,4,2,color);
+        dot(f,x+(int)(c->ticks%2u),y+3,color);
+        dot(f,x+2+(int)(c->ticks%2u),y+3,color);
+        dot(f,x,y+1,COL_WHITE);
+        dot(f,x+2,y+1,COL_WHITE);
     }
     for(unsigned i=0;i<c->players;++i)
         pac_sprite(f,c->pac[i],i,c->pac_direction[i],c->ticks);
@@ -146,7 +151,7 @@ static void draw_snake(const Console *c,uint8_t *f) {
     } else text(f,36,58,"SOLO",COL_CYAN);
 }
 static void draw_result(const Console *c,uint8_t *f) {
-    centered(f,c->last_game==MODE_SNAKE?"SNAKE":"NEXO",3,COL_CYAN);
+    centered(f,c->last_game==MODE_SNAKE?"SNAKE":"PAC-MAN",3,COL_CYAN);
     if(c->result==RESULT_PAC_WIN) centered(f,"VICTORIA",13,COL_GREEN);
     else if(c->result==RESULT_PAC_LOSE || c->result==RESULT_SOLO_LOSE)
         centered(f,"DERROTA",13,COL_RED);
@@ -169,7 +174,7 @@ void console_render(const Console *c,uint8_t f[SCREEN_W*SCREEN_H]) {
         rect(f,4,11,56,1,COL_CYAN);
         centered(f,"ELIGE JUEGO",15,COL_WHITE);
         rect(f,3,c->selection==0?24:36,58,9,COL_YELLOW);
-        centered(f,"1 NEXO",26,c->selection==0?COL_BLACK:COL_WHITE);
+        centered(f,"1 PACMAN",26,c->selection==0?COL_BLACK:COL_WHITE);
         centered(f,"2 SNAKE",38,c->selection==1?COL_BLACK:COL_WHITE);
         centered(f,c->players==1?"JUGADORES: 1":"JUGADORES: 2",47,COL_GREEN);
         centered(f,"ENTER INICIAR",57,COL_CYAN);
