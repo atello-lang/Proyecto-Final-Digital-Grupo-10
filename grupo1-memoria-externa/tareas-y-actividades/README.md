@@ -82,7 +82,7 @@ Precios consultados el 29 de octubre de 2026; los marcados como *aprox.* son ref
 | Componente | Cant. | Precio unitario (COP) | Subtotal (COP) | Dónde |
 | --- | --- | --- | --- | --- |
 | EEPROM 24LC256-I/P (DIP-8) | 1 | 11.900 (IVA incluido) | 11.900 | [Sigma Electrónica](https://www.sigmaelectronica.net/producto/24lc256/) |
-| SRAM serial 23LC1024-I/P (DIP-8) | 1 | ≈ 11.000 (2,44 € + envío) | 11.000 | [Farnell](https://es.farnell.com/microchip/23lc1024-i-p/sram-serial-1mbit-2-5v-8pdip/dp/2212152) o Mercado Libre |
+| SRAM serial 23LC1024-I/P (DIP-8) | 1 | ≈ 11.000 (2,44 € + envío) | 11.000 | Farnell o Mercado Libre |
 | Resistencia 4,7 kΩ 1/4 W | 2 | ≈ 100 (aprox.) | 200 | Cualquier tienda de electrónica |
 | Condensador cerámico 100 nF | 2 | ≈ 200 (aprox.) | 400 | Cualquier tienda de electrónica |
 | Zócalo DIP-8 | 2 | ≈ 600 (aprox.) | 1.200 | Cualquier tienda de electrónica |
