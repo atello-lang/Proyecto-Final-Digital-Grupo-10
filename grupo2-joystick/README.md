@@ -11,9 +11,11 @@ Receptor del Joystick: recibe las teclas que presiona el jugador y se las entreg
 
 ## Qué hace este grupo
 
-_(Describir el periférico y su función dentro de la consola.)_
+Nuestro grupo implementa el periférico de joystick analógico de la consola de videojuegos. Su función es leer la posición del joystick (ejes X e Y) y el estado de su pulsador, y dejar esa información disponible para el procesador FemtoRV, que la usa para controlar el juego (mover al personaje, navegar menús, etc.).
 
-- Dispositivo(s): Joystick MCP3004
+El joystick entrega dos voltajes analógicos, uno por eje, entre 0 y 3.3 V. Como la FPGA Tang Nano solo trabaja con señales digitales, usamos un conversor analógico-digital MCP3008 (10 bits, resolución de ≈ 3.22 mV por paso). El ADC se comunica con la FPGA por SPI en modo 0, donde la FPGA actúa como maestro y el MCP3008 como esclavo.
+
+- Dispositivo(s): Joystick conectado a MCP3008
 - Protocolo: SPI
 - Dirección base en el mapa de memoria: `0x43_0000`
 
