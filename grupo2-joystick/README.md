@@ -235,10 +235,33 @@ Esta tabla nos servirá para depurar cuando probemos el diseño:
 _(Diagrama de bloques, diagrama de flujo, cálculos. Guardar los archivos en `docs/`.)_
 
 ## 4. Registros
+Propuesta de registros del periférico de joystick, ubicado a partir de la dirección base `0x43_0000`. Planteamos registros de 32 bits alineados a palabra (desplazamientos de 4 en 4). Los valores de 10 bits del ADC quedan en los bits `[9:0]` y el resto se lee como 0.
+
+## 4.1 Mapa de registros
 
 | Desplazamiento | Nombre | Acceso | Descripción |
-| --- | --- | --- | --- |
-| 0x00 | | | |
+|---|---|---|---|
+| `0x00` | `CTRL` | R/W | Control del periférico. Bit 0 `ENABLE`: activa el barrido continuo de los 4 canales. Bit 1 `START`: pide un barrido único y se limpia solo al terminar. |
+| `0x04` | `STATUS` | R | Estado. Bit 0 `BUSY`: hay una conversión en curso. Bit 1 `VALID`: ya se completó al menos un barrido y los registros de datos son válidos. |
+| `0x08` | `J1_X` | R | Eje X del jugador 1 (canal CH0 del MCP3008). Bits `[9:0]` con el valor 0 a 1023. |
+| `0x0C` | `J1_Y` | R | Eje Y del jugador 1 (canal CH1). Bits `[9:0]`. |
+| `0x10` | `J2_X` | R | Eje X del jugador 2 (canal CH2). Bits `[9:0]`. |
+| `0x14` | `J2_Y` | R | Eje Y del jugador 2 (canal CH3). Bits `[9:0]`. |
+| `0x18` | `BUTTONS` | R | Estado de los pulsadores. Bit 0 `J1_BTN` y bit 1 `J2_BTN` (1 = presionado). |
+| `0x1C` | `CLKDIV` | R/W | (Opcional) Divisor del reloj de sistema para generar SCLK, de modo que SCLK ≤ 1.35 MHz. |
+
+## 4.2 Funcionamiento previsto
+
+- El periférico hace los barridos por su cuenta: mide CH0, CH1, CH2 y CH3 en orden y va actualizando `J1_X`, `J1_Y`, `J2_X` y `J2_Y`.
+- El procesador solo lee: consulta `STATUS` si necesita saber que hay datos válidos y luego lee los ejes y los botones cuando los necesite.
+- El procesador solo escribe `CTRL` (y `CLKDIV`, si lo dejamos) para encender el periférico o pedir un barrido.
+
+## 4.3 Puntos por confirmar
+
+1. **Ancho y alineación del bus:** supusimos palabras de 32 bits con desplazamientos múltiplos de 4. Hay que verificar cómo accede el SoC a los periféricos del laboratorio.
+2. **Pulsador:** el MCP3008 solo lee señales analógicas, así que el botón de cada joystick debe entrar por un pin digital de la FPGA. Falta decidir si se agrega antirrebote.
+3. **Cantidad de jugadores:** el diseño asume dos joysticks (cuatro canales). Si fuera uno, bastaría con `J1_X`, `J1_Y` y un solo bit en `BUTTONS`.
+4. **Utilidad de `CLKDIV`:** es opcional. Sin él, el divisor queda fijo en el diseño.
 
 ## 5. Pines
 
