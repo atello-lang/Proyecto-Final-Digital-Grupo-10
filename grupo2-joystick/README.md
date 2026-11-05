@@ -28,7 +28,9 @@ El joystick entrega dos voltajes analógicos, uno por eje, entre 0 y 3.3 V. Como
 - [ ] Escribir el testbench
 - [ ] Probar en la placa
 
-## 2. SPI y como funciona
+# 1. Terminología básica
+
+# 2. SPI y como funciona
 
 En esta sección explicamos cómo conversan la FPGA y el MCP3008: cuándo se mueve cada señal, qué bits viajan en cada pulso y cómo vamos a convertirlo en un circuito. Los términos que usamos están definidos en [1. Terminología básica](01-terminologia.md).
 
