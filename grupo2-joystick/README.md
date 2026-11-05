@@ -21,12 +21,13 @@ El joystick entrega dos voltajes analógicos, uno por eje, entre 0 y 3.3 V. Como
 
 ## Tareas
 
-- [ ] Estudiar el protocolo SPI y los scan codes
+- [ ] Estudiar el protocolo SPI y la trama del MCP3008
 - [ ] Definir los registros del receptor
 - [ ] Diseñar el receptor en Verilog
-- [ ] Definir las teclas de cada jugador
+- [ ] Definir la asignación de cada jugador
 - [ ] Escribir el testbench
 - [ ] Probar en la placa
+
 
 ## Diseño
 
