@@ -43,7 +43,7 @@ Vamos a construir una consola de videojuegos retro completa dentro de una FPGA: 
 | Grupo | Tarea | Carpeta |
 | --- | --- | --- |
 | 1 | Memoria externa (SPI-RAM, Flash, EEPROM y récords) | [`grupo1-memoria-externa`](grupo1-memoria-externa) |
-| 2 | Teclado PS/2 | [`grupo2-teclado-ps2`](grupo2-teclado-ps2) |
+| 2 | Joystick | [`grupo2-joystick`](grupo2-joystick) |
 | 3 | Audio (I2S hacia el amplificador) | [`grupo3-audio`](grupo3-audio) |
 | 4 | Pantalla (panel LED 64×64 HUB75 y framebuffer) | [`grupo4-pantalla`](grupo4-pantalla) |
 | 5 | Juego y menú (software) | [`grupo5-juego-menu`](grupo5-juego-menu) |
@@ -101,7 +101,7 @@ module perip_xxx (
 | Grupo | Diseño | Verilog / código | Simulación | Probado en la placa |
 | --- | --- | --- | --- | --- |
 | 1 Memoria externa | ⬜ | ⬜ | ⬜ | ⬜ |
-| 2 Teclado PS/2 | ⬜ | ⬜ | ⬜ | ⬜ |
+| 2 Joystick | ⬜ | ⬜ | ⬜ | ⬜ |
 | 3 Audio | ⬜ | ⬜ | ⬜ | ⬜ |
 | 4 Pantalla | ⬜ | ⬜ | ⬜ | ⬜ |
 | 5 Juego y menú | ⬜ | ⬜ | ⬜ | ⬜ |
