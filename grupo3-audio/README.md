@@ -4,9 +4,9 @@ Periférico de sonido: genera los efectos de la consola y los envía al amplific
 
 ## Integrantes
 
--
--
--
+- John Fernando Franco Rojas
+- Yury Tatiana Muños Perdomo
+- Gabriel Andrés Arenas Carmona
 
 ## Qué hace este grupo
 
