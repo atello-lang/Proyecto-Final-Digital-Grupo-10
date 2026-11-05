@@ -25,7 +25,7 @@ El protocolo I2S (Inter-IC Sound) es un estándar de comunicación síncrono dis
   * **BCLK (Bit Clock):** Reloj de bits a 1.35 MHz, generado al dividir el reloj base de la FPGA (27 MHz) entre 20. Marca el ritmo de envío de cada bit individual.
   * **LRCK / WS (Word Select):** Reloj de selección de canal que establece la frecuencia de muestreo de audio ($f_s = 42.1875\text{ kHz}$). Determina si el dato en tránsito pertenece al canal izquierdo o al derecho.
   * **DIN (Data In):** Línea de datos serie donde se transmiten las muestras de 16 bits con signo, enviando siempre el bit más significativo primero (MSB).
-* **Formato de trama:** Cada trama completa dura 32 ciclos de BCLK (16 bits para el canal izquierdo y 16 bits para el derecho).
+* **Formato de trama:** Cada trama completa dura 32 ciclos de BCLK (16 bits para el canal mono).
 
 ## Tareas
 
