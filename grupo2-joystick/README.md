@@ -28,7 +28,7 @@ El joystick entrega dos voltajes analógicos, uno por eje, entre 0 y 3.3 V. Como
 - [ ] Escribir el testbench
 - [ ] Probar en la placa
 
-## SPI y como funciona
+## 2. SPI y como funciona
 
 En esta sección explicamos cómo conversan la FPGA y el MCP3008: cuándo se mueve cada señal, qué bits viajan en cada pulso y cómo vamos a convertirlo en un circuito. Los términos que usamos están definidos en [1. Terminología básica](01-terminologia.md).
 
@@ -88,33 +88,33 @@ Estos valores salen del datasheet de Microchip MCP3004/3008:
 - CS en alto entre conversiones (tCSH): al menos 270 ns.
 - Con SCLK ≈ 0.85 MHz el semiperiodo es ~590 ns, lo que cumple con holgura todos los mínimos.
 
-## Diseño
+## 3. Diseño 
 
 [Ver diagramas](./docs/Diagramas.md)
 _(Diagrama de bloques, diagrama de flujo, cálculos. Guardar los archivos en `docs/`.)_
 
-## Registros
+## 4. Registros
 
 | Desplazamiento | Nombre | Acceso | Descripción |
 | --- | --- | --- | --- |
 | 0x00 | | | |
 
-## Pines
+## 5. Pines
 
 | Señal | Pin FPGA | Conector | Nota |
 | --- | --- | --- | --- |
 | | | | |
 
-## Simulación
+## 6. Simulación
 
 _(Cómo correr el testbench y qué se verificó. Archivos en `sim/`.)_
 
-## Avances
+## 7. Avances
 
 | Fecha | Avance |
 | --- | --- |
 | | |
 
-## Pendientes y problemas
+## 8. Pendientes y problemas
 
 -
