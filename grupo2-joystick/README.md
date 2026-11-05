@@ -228,15 +228,15 @@ Esta tabla nos servirá para depurar cuando probemos el diseño:
 - [ ] Todas las tierras unidas, y VDD = VREF = 3.3 V.
 
 
-## 3. Diseño
+# 3. Diseño
 
 En esta sección se detalla la arquitectura interna del controlador Verilog, el funcionamiento de la máquina de estados (FSM) que gestiona la comunicación SPI y el cálculo de división de reloj.
 
-##3.1 Arquitectura General y Diagrama de Bloques
+## 3.1 Arquitectura General y Diagrama de Bloques
 
 El módulo se compone de cuatro sub-bloques funcionales diseñados para operar de forma síncrona con el reloj principal de la FPGA y abstraer la complejidad del protocolo SPI al procesador:Generador de Reloj (clk_divider): Toma el reloj del sistema de la FPGA y genera impulsos de habilitación (sclk_tick) para obtener un $SCLK \le 1.35\text{ MHz}$.Máquina de Estados Principal (spi_fsm): Coordina los ciclos de lectura secuencial de los 4 canales (CH0 a CH3) y controla los tiempos de espera de Chip Select ($t_{SUCS}$ y $t_{CSH}$).Registros de Desplazamiento (shift_registers):Registro de Transmisión (Tx): Mantiene la trama de comandos de 5 bits (Start, SGL/DIFF, D2, D1, D0) y coloca cada bit en la línea MOSI.Registro de Recepción (Rx): Captura en serie los bits que entrega el ADC por la línea MISO, descartando el null bit y acumulando los 10 bits de datos (B9 a B0).Banco de Registros e Interfaz de Bus (reg_file): Mantiene almacenados los valores actualizados de los ejes (J1_X, J1_Y, J2_X, J2_Y) y gestiona las lecturas/escrituras del procesador FemtoRV.
 
-##3.2 Diagramas y Archivos Adjuntos
+## 3.2 Diagramas y Archivos Adjuntos
 
 Esquema detallado de bloques y diagrama de estados de la FSM: [Ver diagramas](./docs/Diagramas.md)
 
