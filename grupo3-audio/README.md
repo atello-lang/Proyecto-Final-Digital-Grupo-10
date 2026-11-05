@@ -43,7 +43,7 @@ El protocolo I2S (Inter-IC Sound) es un estándar de comunicación síncrono dis
 
 
 ### 2. Diagrama de Bloques del Subsistema
-
+[Tarjeta MAX98357](./docs/MAX98357 ALLDATASHEET.pdf)
 ## Registros
 
 | Desplazamiento | Nombre | Acceso | Descripción |
