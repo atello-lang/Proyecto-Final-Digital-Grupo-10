@@ -39,7 +39,7 @@ El protocolo I2S (Inter-IC Sound) es un estándar de comunicación síncrono dis
 ## Diseño
 
 ### 1. Diagrama de Flujo
-[Ver Diagramas de Flujo/ Cana Negra](.docs/Diagrama_de_flujo.md)
+[Ver Diagramas de Flujo/ Cana Negra](./dosc/Diagrama_de_Flujo.md)
 
 
 ### 2. Diagrama de Bloques del Subsistema
