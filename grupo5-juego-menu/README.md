@@ -1,7 +1,7 @@
 # Grupo 5 · Juego y menú
 
 Firmware C sin sistema operativo para integrar con FemtoRV32 en Tang Nano 9K.
-Validado en Linux y compilado a objetos RV32I; **no probado en FPGA**.
+Validado en Linux y compilado a objetos RV32I
 
 - **PAC-MAN**: explorar el laberinto, recoger energía y evitar fantasmas. Un jugador o
   dos en cooperación, tres vidas compartidas y puntuación de equipo.
