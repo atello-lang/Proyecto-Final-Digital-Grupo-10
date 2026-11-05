@@ -7,7 +7,10 @@ Validado en Linux y compilado a objetos RV32I; **no probado en FPGA**.
   dos en cooperación, tres vidas compartidas y puntuación de equipo.
 - **Snake**: individual o competitivo de dos jugadores, un punto por alimento,
   crecimiento hasta 128 segmentos, colisiones simultáneas y empate.
-
+## Integrantes
+- Sebastian Cespedes
+- Juan Jose Mora
+- Luis Felipe Cardenas
 ## Controles abstractos
 
 | Contexto | Teclas |
