@@ -18,7 +18,7 @@ Este subsistema se encarga de la generación, síntesis y reproducción del audi
 
 ## Protocolo I2S
 
-El protocolo I2S (Inter-IC Sound) es un estándar de comunicación síncrono diseñado específicamente para la transferencia de audio digital PCM serie entre circuitos integrados.
+El protocolo I2S (Inter-IC Sound) es un estándar de comunicación síncrono diseñado específicamente para la transferencia de audio digital.
 
 * **Naturaleza síncrona:** Es un protocolo síncrono y unidireccional que comparte una señal de reloj dedicada entre la FPGA (maestro) y el DAC MAX98357A (esclavo).
 * **Señales del bus:**
