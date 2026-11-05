@@ -90,6 +90,144 @@ Estos valores salen del datasheet de Microchip MCP3004/3008:
 - CS en alto entre conversiones (tCSH): al menos 270 ns.
 - Con SCLK ≈ 0.85 MHz el semiperiodo es ~590 ns, lo que cumple con holgura todos los mínimos.
 
+## 2.5 Una transacción completa, pulso a pulso
+
+Llamamos **transacción** a una conversación completa: CS baja, se envían 17 pulsos y CS sube.
+
+**Estado de reposo (siempre antes y después):** CS = 1, SCLK = 0, MOSI = 0.
+
+**Secuencia que planteamos:**
+
+1. **Bajamos CS** a 0 y esperamos ≥ 100 ns (en la práctica, 1 o 2 ciclos del reloj de sistema).
+2. **Ponemos el primer bit** (el start = 1) en MOSI.
+3. **Repetimos 17 veces:** subimos SCLK y leemos MISO, luego bajamos SCLK y ponemos en MOSI el siguiente bit.
+4. **Después del pulso 17**, dejamos SCLK en 0.
+5. **Subimos CS** a 1 y lo mantenemos ≥ 270 ns antes de la siguiente transacción.
+6. **Guardamos** el número de 10 bits recibido en el registro del canal.
+
+### Trama de 17 pulsos
+
+| Pulso | DIN (FPGA → ADC) | DOUT (ADC → FPGA) |
+|---|---|---|
+| 1 | Start = 1 | Alta impedancia |
+| 2 | SGL/DIFF = 1 | Alta impedancia |
+| 3 | D2 | Alta impedancia |
+| 4 | D1 | Alta impedancia |
+| 5 | D0 | Alta impedancia |
+| 6 | no importa | Alta impedancia (muestreo) |
+| 7 | no importa | Null bit = 0 |
+| 8 a 17 | no importa | B9, B8, …, B0 |
+
+### Comandos CH0 a CH3 (single-ended)
+
+Los 4 bits del comando son `{SGL/DIFF, D2, D1, D0}`.
+
+| Canal | Comando | Segundo byte (formato de 3 bytes) |
+|---|---|---|
+| CH0 | `1000` | `0x80` |
+| CH1 | `1001` | `0x90` |
+| CH2 | `1010` | `0xA0` |
+| CH3 | `1011` | `0xB0` |
+
+## 2.6 Ejemplo completo: leer el eje Y del jugador 1 (CH1)
+
+Para verlo con números, suponemos que el eje mide **2.18 V**. Como 2.18 / 3.22 mV ≈ 677, el ADC debe devolver **677 = `10 1010 0101` en binario (0x2A5)**.
+
+El comando para CH1 es `SGL/DIFF=1, D2=0, D1=0, D0=1`.
+
+| Pulso | FPGA pone en MOSI | ADC pone en MISO | Qué hace la FPGA con lo recibido |
+|---|---|---|---|
+| 1 | **1** (start) | alta impedancia | Ignora |
+| 2 | **1** (SGL/DIFF) | alta impedancia | Ignora |
+| 3 | **0** (D2) | alta impedancia | Ignora |
+| 4 | **0** (D1) | alta impedancia | Ignora |
+| 5 | **1** (D0) | alta impedancia | Ignora |
+| 6 | no importa | alta impedancia (muestreo) | Ignora |
+| 7 | no importa | 0 (null bit) | Descarta |
+| 8 | no importa | **1** (B9) | Guarda |
+| 9 | no importa | **0** (B8) | Guarda |
+| 10 | no importa | **1** (B7) | Guarda |
+| 11 | no importa | **0** (B6) | Guarda |
+| 12 | no importa | **1** (B5) | Guarda |
+| 13 | no importa | **0** (B4) | Guarda |
+| 14 | no importa | **0** (B3) | Guarda |
+| 15 | no importa | **1** (B2) | Guarda |
+| 16 | no importa | **0** (B1) | Guarda |
+| 17 | no importa | **1** (B0) | Guarda |
+
+Los bits guardados, en orden de llegada, son `1010100101`, es decir, 677. Los capturamos con un registro de desplazamiento: en cada pulso útil hacemos `resultado = {resultado[8:0], bit_recibido}`. Como B9 llega primero, termina en la posición más alta.
+
+## 2.7 Variante de 3 bytes (24 pulsos)
+
+Muchas librerías de microcontroladores hacen lo mismo en 3 bytes completos:
+
+| Byte | Se envía | Se recibe |
+|---|---|---|
+| 1 | `0x01` (7 ceros y el start) | Ignorar |
+| 2 | `0x90` para CH1 (`1 001 0000`) | Sus 2 bits bajos son B9 y B8 |
+| 3 | `0x00` (relleno) | B7 a B0 |
+
+Con el ejemplo anterior: `rx2[1:0] = 10` y `rx3 = 0xA5`, así que `valor = {rx2[1:0], rx3} = 0x2A5 = 677`.
+
+Las dos variantes dan el mismo resultado. La de 17 pulsos es más corta y la de 24 es más fácil de alinear con bytes. Vamos a elegir una y usarla siempre.
+
+## 2.8 Leer varios canales
+
+El MCP3008 mide **un solo canal por transacción**. Para leer X e Y de dos jugadores tenemos que hacer 4 transacciones seguidas:
+
+1. CH0 → registro X del jugador 1.
+2. CH1 → registro Y del jugador 1.
+3. CH2 → registro X del jugador 2.
+4. CH3 → registro Y del jugador 2.
+
+Entre una y otra, CS sube y espera ≥ 270 ns. Luego repetimos el ciclo sin parar, y así el procesador siempre encuentra el último valor leído en los registros.
+
+## 2.9 Cómo lo traducimos a un circuito en la FPGA
+
+Para implementarlo necesitamos 4 bloques sencillos:
+
+| Bloque | Función |
+|---|---|
+| **Divisor de reloj** | Cuenta ciclos del reloj de sistema y da un "tick" a la velocidad de SCLK (≤ 1.35 MHz). |
+| **Contador de pulsos** | Cuenta de 0 a 16 para saber en qué bit de la trama vamos. |
+| **Registros de desplazamiento** | Uno envía el comando por MOSI y otro captura los 10 bits por MISO. |
+| **FSM (máquina de estados)** | Coordina todo con la secuencia: `IDLE → CS_BAJA → ENVIAR_Y_LEER_17_PULSOS → CS_SUBE → ESPERA → SIGUIENTE_CANAL`. |
+
+Una buena práctica que vamos a seguir es **no usar SCLK como reloj interno** de la FPGA. Mantenemos todo en el reloj de sistema y generamos SCLK como una señal normal que cambia cuando llega el tick del divisor. Así evitamos problemas de sincronización.
+
+## 2.10 Errores comunes y cómo reconocerlos
+
+Esta tabla nos servirá para depurar cuando probemos el diseño:
+
+| Síntoma | Causa probable |
+|---|---|
+| Siempre lee 0 | MISO desconectado, CS nunca baja, o el comando está mal formado. |
+| Siempre lee 1023 | VREF o VDD sin alimentar, o MISO flotante en alto. |
+| Valores a la mitad o al doble de lo esperado | Un bit de desfase: se leyó un pulso antes o después. Revisar dónde se descarta el null bit. |
+| Valores ruidosos o erráticos | SCLK demasiado rápido, cables largos, o falta de tierra común. |
+| Canal equivocado | Bits D2 D1 D0 mal ordenados. D2 sale primero. |
+| Funciona en simulación, falla en la placa | Tiempos (tSUCS, tCSH) no respetados, o modo SPI equivocado. |
+| Solo cambia un bit del resultado | Se está usando el flanco de bajada para leer MISO. |
+
+**Prueba de sanidad que vamos a hacer en la placa:**
+
+- Entrada a GND → resultado ≈ 0.
+- Entrada a 3.3 V → resultado ≈ 1023.
+- Joystick centrado → resultado ≈ 512.
+
+## 2.11 Lista de verificación antes de simular o probar
+
+- [ ] En reposo: CS = 1, SCLK = 0.
+- [ ] SCLK ≤ 1.35 MHz y semiperiodo > 125 ns.
+- [ ] CS baja ≥ 100 ns antes del primer pulso.
+- [ ] El start bit está en MOSI antes de la primera subida.
+- [ ] MOSI cambia en las bajadas y MISO se lee en las subidas.
+- [ ] Se descarta el null bit, y B9 es el primer bit guardado.
+- [ ] El comando de cada canal es correcto (CH0 = `1000`, CH1 = `1001`, CH2 = `1010`, CH3 = `1011`).
+- [ ] CS en alto ≥ 270 ns entre transacciones.
+- [ ] Todas las tierras unidas, y VDD = VREF = 3.3 V.
+
+
 ## 3. Diseño 
 
 [Ver diagramas](./docs/Diagramas.md)
