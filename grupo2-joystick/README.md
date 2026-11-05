@@ -231,6 +231,7 @@ Esta tabla nos servirá para depurar cuando probemos el diseño:
 ## 3. Diseño 
 
 [Ver diagramas](./docs/Diagramas.md)
+[Ver datasheet](./docs/Resumen_MCP3008.md)
 _(Diagrama de bloques, diagrama de flujo, cálculos. Guardar los archivos en `docs/`.)_
 
 ## 4. Registros
