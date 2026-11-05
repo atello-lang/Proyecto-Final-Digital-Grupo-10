@@ -31,6 +31,7 @@ El joystick entrega dos voltajes analógicos, uno por eje, entre 0 y 3.3 V. Como
 
 ## Diseño
 
+[Ver diagramas](./docs/Diagramas.md)
 _(Diagrama de bloques, diagrama de flujo, cálculos. Guardar los archivos en `docs/`.)_
 
 ## Registros
