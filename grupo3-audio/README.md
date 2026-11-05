@@ -38,12 +38,13 @@ El protocolo I2S (Inter-IC Sound) es un estándar de comunicación síncrono dis
 
 ## Diseño
 
-### 1. Diagrama de Flujo
+### 1. Diagrama de Flujo, caja negra y mas
 [Ver Diagramas de Flujo/ Cana Negra](./docs/Diagrama_de_Flujo.md)
 
 
-### 2. Diagrama de Bloques del Subsistema
-[Tarjeta MAX98357](./docs/MAX98357 ALLDATASHEET.pdf)
+### 2. DataSheet
+[Tarjeta MAX98357A](./docs/MAX98357_ALLDATASHEET.pdf)
+
 ## Registros
 
 | Desplazamiento | Nombre | Acceso | Descripción |
