@@ -42,12 +42,12 @@ Vamos a construir una consola de videojuegos retro completa dentro de una FPGA: 
 
 | Grupo | Tarea | Carpeta |
 | --- | --- | --- |
-| 1 | Memoria externa (Flash, EEPROM y récords) | [`grupo1-memoria-externa`](grupo1-memoria-externa) |
-| 2 | Joystick | [`grupo2-joystick`](grupo2-joystick) |
+| 1 | Memoria externa (Flash, EEPROM y récords) PROTOCOLO SPI | [`grupo1-memoria-externa`](grupo1-memoria-externa) |
+| 2 | Joystick PROTOCOLO SPI| [`grupo2-joystick`](grupo2-joystick) |
 | 3 | Audio (I2S hacia el amplificador) | [`grupo3-audio`](grupo3-audio) |
 | 4 | Pantalla (panel LED 64×64 HUB75 y framebuffer) | [`grupo4-pantalla`](grupo4-pantalla) |
-| 5 | Juego y menú (software) | [`grupo5-juego-menu`](grupo5-juego-menu) |
-| 6 | Inicio: integración del SoC, UART y arranque | [`grupo6-inicio-integracion`](grupo6-inicio-integracion) |
+| 5 | DEBUG Y UNION PROTOCOLO UART | [`grupo5-juego-menu`](grupo5-juego-menu) |
+| 6 | APOYO PANTALLA Y MEMORIA | [`grupo6-inicio-integracion`](grupo6-inicio-integracion) |
 
 Cada grupo tiene su carpeta con un `README.md` para describir lo que hizo, y las subcarpetas:
 
