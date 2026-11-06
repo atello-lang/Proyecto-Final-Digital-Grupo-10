@@ -11,19 +11,31 @@ Validado en Linux y compilado a objetos RV32I
 - Sebastian Cespedes
 - Juan Jose Mora
 - Luis Felipe Cardenas
-## Controles abstractos
+## Controles con dos joysticks
 
-| Contexto | Teclas |
+Cada eje usa la lectura MCP3008 de 10 bits (`0` a `1023`). El centro se fija en
+`512` y hay una zona muerta de `±128`; para diagonales se elige el eje con mayor
+desplazamiento (en empate, el vertical). Un valor X bajo/alto es izquierda/
+derecha; Y bajo/alto es arriba/abajo.
+
+| Contexto | Control |
 |---|---|
-| Menú: juego | Arriba/abajo o W/S |
-| Menú: jugadores | Izquierda/A = uno; derecha/D = dos |
-| Iniciar | Enter; 1/2 inician directamente el juego con la cantidad elegida |
-| Jugador 1 / jugador 2 | WASD / flechas (en individual, ambas controlan J1) |
-| Partida | P pausa/reanuda; R reinicia; Escape vuelve al menú |
-| Resultado | Enter repite; Escape vuelve al menú |
+| Menú: juego | J1 arriba/abajo elige PAC-MAN/Snake |
+| Menú: jugadores | J1 izquierda/derecha elige uno/dos jugadores |
+| Iniciar / repetir | Pulsador de J1 |
+| Jugador 1 / jugador 2 | Joystick 1 / joystick 2, respectivamente |
+| Partida | Pulsador J1 pausa/reanuda; pulsador J2 reinicia |
+| Volver al menú | Pulsar ambos botones a la vez |
 
-La selección inicial conserva dos jugadores. Las acciones detectan flancos:
-soltar la tecla antes de repetir. El adaptador PS/2 debe entregar teclas mantenidas.
+La selección inicial conserva dos jugadores. Los botones se detectan por flanco;
+se deben soltar antes de repetir la acción. En modo individual solo J1 controla
+al personaje.
+
+El mapa de registros y la adquisición continua de los cuatro canales están
+propuestos en [la documentación del Grupo 2](../grupo2-joystick/README.md);
+el contrato MMIO aún debe confirmarse antes de conectar el firmware a la FPGA.
+La demo HTML usa la Gamepad API como simulador independiente; no lee el MCP3008
+ni sustituye la integración MMIO del firmware.
 
 ## Verificación reproducible
 

@@ -6,7 +6,7 @@
    No retener el framebuffer: pertenece al llamador. Sin malloc. */
 typedef struct {
     void *context;
-    uint16_t (*read_keys)(void *context);
+    JoystickInput (*read_joysticks)(void *context);
     void (*present)(void *context, const uint8_t *pixels);
     void (*play_sound)(void *context, Sound event);
 } ConsolePlatform;

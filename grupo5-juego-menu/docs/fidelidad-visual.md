@@ -37,8 +37,8 @@ usan «PAC-MAN». La lógica funcional y el render de Snake no cambian.
 - Fuente 3×5: los dígitos 6 y 7 ahora coinciden con el original.
 - PAC-MAN individual conserva la energía en la casilla donde aparecería J2.
 - El píxel cian indica que ambos jugadores comparten casilla.
-- En individual, flechas y WASD controlan J1 en ambos juegos. Ante teclas
-  simultáneas, la prioridad fija es arriba, derecha, abajo, izquierda.
+- El firmware lee X/Y de cada joystick independientemente. Usa el centro 512,
+  zona muerta ±128 y escoge el eje de mayor desplazamiento en diagonales.
 - PAC-MAN verifica el choque antes de recoger energía, como el HTML.
 - Snake actualiza al superviviente y su puntuación antes de resolver un choque
   del rival en el mismo paso; actualiza también el indicador interno alive.
@@ -50,12 +50,12 @@ usan «PAC-MAN». La lógica funcional y el render de Snake no cambian.
 | Aspecto | HTML | Firmware C |
 |---|---|---|
 | Identidad laberinto | Personajes clásicos | PAC-MAN: jugadores y fantasmas originales, dos fases animadas |
-| Menú | Dos pantallas: juego, luego jugadores; flechas alternan | Una pantalla; arriba/abajo elige juego, izquierda/derecha jugadores; 1/2 inicia directamente |
-| Inicio por Enter | Confirma cada etapa | Inicia con selección visible |
-| Laberinto | Movimiento continuo, giro pendiente | Movimiento solo con tecla mantenida, sin giro en cola |
+| Menú | Dos pantallas: juego, luego jugadores; ejes del J1 navegan | Una pantalla; eje Y elige juego, eje X jugadores; botón J1 inicia |
+| Inicio | Botón J1 confirma cada etapa | Botón J1 inicia con la selección visible |
+| Laberinto | Movimiento continuo, giro pendiente | Movimiento cuando un eje supera el dead zone, sin giro en cola |
 | Enemigos | Buscan al más cercano, con decisiones pseudoaleatorias | Cada fantasma persigue al jugador asignado; ambos a J1 en individual; desempate fijo |
-| Controles | Eventos de pulsación | Máscara de teclas mantenidas; acciones de menú por flanco |
-| Pausa/salida | Escape pausa primero; Enter o P reanuda; R vuelve al menú | P pausa/reanuda; Escape va al menú; R reinicia; instrucciones visibles |
+| Controles | Dos gamepads de la referencia visual | Dos joysticks analógicos MCP3008; cuatro ejes y dos botones |
+| Pausa/salida | Botón J1 pausa/reanuda; J2 reinicia; ambos botones vuelven al menú | J1 pausa/reanuda y repite; J2 reinicia; ambos botones vuelven al menú |
 | Resultados | Mensaje y récord | Juego, resultado, puntuaciones, récord de sesión e instrucciones |
 | Récords | localStorage, separados por juego y número de jugadores | RAM de sesión, un máximo por juego compartido entre individual/doble |
 | Snake HUD | Dos cifras mínimas; sin etiqueta individual | Tres cifras y etiqueta SOLO; saturación visual para evitar desbordar |
@@ -80,7 +80,8 @@ Las aserciones del generador evitan etiquetar PAC-MAN como Snake o viceversa.
 
 Pasaron `make test`, `make demo`, `make compare-html`, `make sanitize` y
 `make size-rv32`. Compilación final sin avisos (warnings tratados como errores).
-Las regresiones incluyen energía individual, control con flechas, dos fases de
+Las regresiones incluyen energía individual, control analógico independiente de
+J1/J2 y zona muerta, dos fases de
 animación, casilla compartida y puntuación del superviviente en el turno final.
 Se mantienen las comprobaciones de paleta y centinelas en 1200 renders.
 ASan/UBSan pasan; LeakSanitizer sigue desactivado por el entorno ptrace.

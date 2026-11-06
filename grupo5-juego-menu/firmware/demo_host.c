@@ -10,6 +10,31 @@ static const uint8_t rgb[8][3] = {
     {0,0,0},{0,0,255},{0,255,0},{0,255,255},
     {255,0,0},{255,0,255},{255,255,0},{255,255,255}
 };
+static JoystickInput centered(void) {
+    JoystickInput input={{JOYSTICK_CENTER,JOYSTICK_CENTER},
+                         {JOYSTICK_CENTER,JOYSTICK_CENTER},0};
+    return input;
+}
+static void press(Console *c,uint8_t buttons) {
+    if(c->last_buttons) console_step(c,centered());
+    JoystickInput input=centered();
+    input.buttons=buttons;
+    console_step(c,input);
+}
+static void select_menu(Console *c,unsigned players,unsigned game) {
+    JoystickInput input=centered();
+    if(c->players!=players) {
+        input.x[0]=players==1?0:1023;
+        console_step(c,input);
+        console_step(c,centered());
+    }
+    if(c->selection!=(game==1?0:1)) {
+        input=centered(); input.y[0]=game==1?0:1023;
+        console_step(c,input);
+        console_step(c,centered());
+    }
+    press(c,JOY_BUTTON_1);
+}
 static int snapshot(const char *filename,const Console *c) {
     FILE *out=fopen(filename,"wb");
     if(!out) { perror(filename); return 0; }
@@ -28,25 +53,25 @@ int main(void) {
     console_init(&c);
     assert(c.mode==MODE_MENU);
     if(!snapshot("build/menu.ppm",&c)) return 1;
-    console_step(&c,K_GAME1);
+    press(&c,JOY_BUTTON_1);
     /* Captura inicial: comparable con el HTML justo al iniciar la partida. */
     assert(c.mode==MODE_PACMAN && c.players==2);
     if(!snapshot("build/pacman.ppm",&c)) return 1;
     c.ticks=1;
     if(!snapshot("build/pacman-fase1.ppm",&c)) return 1;
-    console_step(&c,K_ESCAPE); console_step(&c,K_LEFT); console_step(&c,K_GAME1);
+    press(&c,JOY_BUTTON_BOTH); select_menu(&c,1,1);
     assert(c.mode==MODE_PACMAN && c.players==1);
     if(!snapshot("build/pacman-solo.ppm",&c)) return 1;
-    console_step(&c,K_ESCAPE); console_step(&c,K_RIGHT); console_step(&c,0);
-    console_step(&c,K_GAME2);
+    press(&c,JOY_BUTTON_BOTH); select_menu(&c,2,2);
     assert(c.mode==MODE_SNAKE && c.players==2);
     if(!snapshot("build/snake.ppm",&c)) return 1;
-    console_step(&c,K_PAUSE);
+    press(&c,JOY_BUTTON_1);
     if(!snapshot("build/pausa.ppm",&c)) return 1;
-    console_step(&c,K_ESCAPE); console_step(&c,K_LEFT); console_step(&c,K_GAME2);
+    press(&c,JOY_BUTTON_BOTH); select_menu(&c,1,2);
     assert(c.mode==MODE_SNAKE && c.players==1);
     if(!snapshot("build/snake-solo.ppm",&c)) return 1;
-    for(unsigned i=0;i<40 && c.mode!=MODE_RESULT;++i) console_step(&c,0);
+    for(unsigned i=0;i<40 && c.mode!=MODE_RESULT;++i)
+        console_step(&c,centered());
     if(c.mode!=MODE_RESULT) return 1;
     if(!snapshot("build/resultado.ppm",&c)) return 1;
     printf("sizeof(Console)=%zu; framebuffer=%zu bytes\n",sizeof(c),sizeof(pixels));

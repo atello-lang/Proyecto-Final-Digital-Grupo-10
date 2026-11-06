@@ -16,7 +16,7 @@ Se conservan las reglas del código.
 | console.c / console.h | Estado público, menú, pausa, reinicio y coordinación |
 | maze.c | PAC-MAN: paredes, energía, jugadores y fantasmas |
 | snake.c | Movimiento, crecimiento, alimento y colisiones simultáneas |
-| controls.c | Máscara abstracta a dirección; sin scan codes supuestos |
+| controls.c | Muestras analógicas de ambos joysticks a dirección; zona muerta de 128 |
 | draw.c | Fuente, sprites y render de 4096 píxeles |
 | services.c | Resultados, récords de sesión y evento de sonido |
 | platform.c / platform.h | Adaptadores de periféricos y paso temporizado |
@@ -29,9 +29,12 @@ blancos y pies alternados. Conserva la geometría y el detalle cian de las pared
 Los fantasmas persiguen al jugador asignado cada dos pasos; en individual ambos
 persiguen al primero. La restauración visual no cambia estas reglas.
 
-La partida permanece inmóvil en pausa. P reanuda sin avanzar ese mismo paso.
-R reinicia durante partida/pausa; Enter repite desde resultado. Se conserva la
-cantidad de jugadores. Volver al menú no borra récords; apagar/reinicializar sí.
+La dirección analógica se aplica una vez por paso de juego; en PAC-MAN no se
+encola un giro mientras el personaje avanza. La partida permanece inmóvil en
+pausa. El botón J1 reanuda sin avanzar ese mismo
+paso; J2 reinicia durante partida/pausa. J1 repite desde resultado. Pulsar ambos
+botones vuelve al menú. Se conserva la cantidad de jugadores. Volver al menú no
+borra récords; apagar/reinicializar sí.
 Solo se registran partidas terminadas. No hay top 5, iniciales ni EEPROM todavía.
 
 Snake conserva amarillo/verde, ojo blanco, cuerpo tramado y alimento rojo.

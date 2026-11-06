@@ -11,8 +11,9 @@ const cx={fillStyle:'#000000',fillRect(x,y,w,h){
 }};
 const element=()=>({getContext:()=>cx,classList:{remove(){},add(){},toggle(){}},
   setAttribute(){},addEventListener(){},style:{}});
+const gamepads=[];
 const sandbox={document:{getElementById:()=>element(),addEventListener(){}},localStorage:{getItem:()=>0,setItem(){}},
-  addEventListener(){},requestAnimationFrame(){}};
+  navigator:{getGamepads:()=>gamepads},addEventListener(){},requestAnimationFrame(){}};
 vm.createContext(sandbox);
 const html=fs.readFileSync('docs/referencia-html.html','utf8');
 vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1],sandbox);
@@ -44,3 +45,32 @@ for(const n of [1,2]){
   compare(`snake ${n}J paso 1`,'ticks++;snakeTick();draw()',(_x,y)=>y>=56);
 }
 assert.equal(index*4096,raw.length);
+function checkGamepad(code){
+  vm.runInContext(code,sandbox);
+}
+const pad=(x=0,y=0,pressed=false)=>({axes:[x,y],buttons:[{pressed}]});
+gamepads[0]=pad();
+gamepads[1]=pad();
+checkGamepad('menu(); pollGamepads()');
+gamepads[0]=pad(0,1);checkGamepad('pollGamepads()');
+checkGamepad("if(selected!=='snake')throw Error('J1 Y did not select Snake')");
+gamepads[0]=pad();checkGamepad('pollGamepads()');
+gamepads[0]=pad(0,0,true);checkGamepad('pollGamepads()');
+checkGamepad("if(menuStage!=='players')throw Error('J1 button did not confirm game')");
+gamepads[0]=pad();checkGamepad('pollGamepads()');
+gamepads[0]=pad(1,0);checkGamepad('pollGamepads()');
+checkGamepad("if(playerCount!==2)throw Error('J1 X did not select two players')");
+gamepads[0]=pad();checkGamepad('pollGamepads()');
+gamepads[0]=pad(0,0,true);checkGamepad('pollGamepads()');
+checkGamepad("if(mode!=='play'||state.snakes.length!==2)throw Error('J1 button did not start two-player Snake')");
+gamepads[0]=pad();checkGamepad('pollGamepads()');
+checkGamepad('state.snakes[1].next=[0,1]');
+gamepads[1]=pad(-1,0);checkGamepad('pollGamepads()');
+checkGamepad("if(state.snakes[1].next[0]!==-1)throw Error('J2 axis did not control player 2')");
+gamepads[1]=pad();checkGamepad('pollGamepads()');
+checkGamepad('state.snakes[0].score=7');
+gamepads[1]=pad(0,0,true);checkGamepad('pollGamepads()');
+checkGamepad("if(state.snakes[0].score!==0||mode!=='play')throw Error('J2 button did not restart')");
+gamepads[0]=pad(0,0,true);checkGamepad('pollGamepads()');
+checkGamepad("if(mode!=='menu')throw Error('Both buttons did not return to menu')");
+console.log('Gamepad controls: menu, two-player start, J2 movement and return-to-menu passed');

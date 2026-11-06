@@ -42,11 +42,10 @@ static int ghost_collision(const Console *c) {
         if(equal(c->pac[i],c->ghosts[j])) return 1;
     return 0;
 }
-void pacman_tick(Console *c, uint16_t keys) {
+void pacman_tick(Console *c, const JoystickInput *input) {
     uint8_t d;
     for(unsigned p=0;p<c->players;++p) {
-        /* Sin tecla no se desplaza: evita movimiento accidental en menú. */
-        if(key_direction(keys,(int)p,&d)) {
+        if(joystick_direction(input,p,&d)) {
             c->pac_direction[p]=d;
             Cell n=moved(c->pac[p],d);
             if(passable(c,n)) c->pac[p]=n;

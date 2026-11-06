@@ -28,18 +28,18 @@
 </head>
 <body>
 <main>
-  <header class="top"><div><p class="eyebrow">ELECTRÓNICA DIGITAL 1 / DEMO INTERACTIVA</p><h1>Pequeña matriz.<br>Gran <span>partida.</span></h1><p class="sub">Consola retro FPGA · Dos juegos, uno o dos jugadores, un mismo teclado.</p></div><span class="badge"><span class="led"></span>LOCAL · SIN INTERNET</span></header>
+  <header class="top"><div><p class="eyebrow">ELECTRÓNICA DIGITAL 1 / DEMO INTERACTIVA</p><h1>Pequeña matriz.<br>Gran <span>partida.</span></h1><p class="sub">Consola retro FPGA · Dos juegos y dos joysticks analógicos.</p></div><span class="badge"><span class="led"></span>LOCAL · SIN INTERNET</span></header>
   <section class="layout" aria-label="Consola y controles">
     <div><div class="screen-shell"><div class="marquee"><span>RETRO / 64</span><span>FPGA ARCADE SYSTEM</span></div><div class="bezel"><canvas id="display" width="64" height="64" aria-label="Matriz LED virtual de 64 por 64 píxeles. Usa los controles indicados para jugar."></canvas></div><div class="brand"><span><span class="led"></span>TANG NANO 9K · CONCEPTO</span><span>64 × 64 / RGB 3-BIT</span></div><div class="console-bottom" aria-hidden="true"><div class="vents"></div><div class="deco-buttons"><i></i><i></i></div></div></div><div class="specs"><span>4.096 PÍXELES</span><span>8 COLORES</span><span>1–2 JUGADORES</span></div></div>
     <div class="panel"><div class="section-title"><h2>Elige tu partida</h2><span class="label">01 / 02</span></div>
       <div class="games"><button type="button" class="game" id="pac" aria-pressed="true"><span class="game-number">01</span><span><strong>PAC-MAN</strong><small>Solo o cooperativo · Tres vidas</small></span><span class="arrow" aria-hidden="true">↗</span></button><button type="button" class="game" id="snake" aria-pressed="false"><span class="game-number">02</span><span><strong>SNAKE</strong><small>Solo o competitivo · Come y sobrevive</small></span><span class="arrow" aria-hidden="true">↗</span></button></div>
-      <section class="player-picker" aria-label="Número de jugadores"><h2 id="menu-heading">1. Elige el juego</h2><div class="player-options"><button type="button" id="solo" aria-pressed="false">1 jugador</button><button type="button" id="duo" aria-pressed="true">2 jugadores</button></div><p class="tiny" id="menu-help">↑ ↓ eligen juego · Enter confirma</p></section>
+      <section class="player-picker" aria-label="Número de jugadores"><h2 id="menu-heading">1. Elige el juego</h2><div class="player-options"><button type="button" id="solo" aria-pressed="false">1 jugador</button><button type="button" id="duo" aria-pressed="true">2 jugadores</button></div><p class="tiny" id="menu-help">J1 arriba/abajo elige juego · Botón J1 confirma</p></section>
       <div class="session" id="session"><div class="state-row"><span class="label">ESTADO DE LA CONSOLA</span><strong id="phase">MENÚ</strong></div><p id="status" aria-live="polite"></p><div class="scores"><div class="score"><span class="label">JUGADOR 1 · AMARILLO</span><strong id="score1">000</strong><small id="player1">Listo para jugar</small></div><div class="score" id="second-score"><span class="label">JUGADOR 2 · VERDE</span><strong id="score2">000</strong><small id="player2">Listo para jugar</small></div></div><div class="shared"><span id="shared">VIDAS 3 / 3</span><span id="record">RÉCORD 000</span></div><div class="buttons"><button type="button" id="start" class="primary">Iniciar partida ↵</button><button type="button" id="pause" disabled>Pausa</button><button type="button" id="back">Menú</button></div></div>
       <p class="tiny" id="rules">Recojan todos los puntos y eviten los dos fantasmas. La puntuación y las tres vidas son del equipo.</p>
-      <section class="controls" aria-label="Controles del teclado"><h2>Comparte el teclado</h2><div class="keyrows"><p class="keyrow"><strong>J1 / Amarillo</strong><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></p><p class="keyrow"><strong>J2 / Verde</strong><kbd>↑</kbd> <kbd>←</kbd> <kbd>↓</kbd> <kbd>→</kbd></p></div><p class="tiny" id="solo-help"></p><p class="shortcuts"><kbd>↑</kbd> <kbd>↓</kbd> navegar · <kbd>←</kbd> <kbd>→</kbd> elegir jugadores<br><kbd>1</kbd> <kbd>2</kbd> elegir · <kbd>Enter</kbd> iniciar / continuar<br><kbd>Esc</kbd> pausar; desde pausa o resultados, volver al menú</p></section>
+      <section class="controls" aria-label="Controles de los dos joysticks"><h2>Dos joysticks</h2><div class="keyrows"><p class="keyrow"><strong>J1 / Amarillo</strong> Ejes X/Y para navegar y jugar</p><p class="keyrow"><strong>J2 / Verde</strong> Ejes X/Y para jugar</p></div><p class="tiny" id="solo-help"></p><p class="shortcuts">J1 arriba/abajo: juego · J1 izquierda/derecha: jugadores<br>Botón J1: iniciar, pausar o repetir · Botón J2: reiniciar<br>Ambos botones a la vez: volver al menú</p></section>
     </div>
   </section>
-  <footer><div><strong>Diseñada para pensar en hardware.</strong><br>Tang Nano 9K · FemtoRV RISC-V · Arquitectura Von Neumann<br>Paleta RGB de 1 bit por canal <span class="palette" aria-label="Negro, azul, verde, cian, rojo, magenta, amarillo y blanco"><i style="background:#000"></i><i style="background:#00f"></i><i style="background:#0f0"></i><i style="background:#0ff"></i><i style="background:#f00"></i><i style="background:#f0f"></i><i style="background:#ff0"></i><i style="background:#fff"></i></span></div><div>Simulación de reglas y gráficos; no emula FemtoRV, memoria, tiempos de ejecución ni barrido HUB75. El teclado representa dos mandos locales. Los récords se guardan en este navegador, no en una EEPROM. La interfaz exterior no forma parte de la matriz LED.</div></footer>
+  <footer><div><strong>Diseñada para pensar en hardware.</strong><br>Tang Nano 9K · FemtoRV RISC-V · Arquitectura Von Neumann<br>Paleta RGB de 1 bit por canal <span class="palette" aria-label="Negro, azul, verde, cian, rojo, magenta, amarillo y blanco"><i style="background:#000"></i><i style="background:#00f"></i><i style="background:#0f0"></i><i style="background:#0ff"></i><i style="background:#f00"></i><i style="background:#f0f"></i><i style="background:#ff0"></i><i style="background:#fff"></i></span></div><div>Simulación de reglas y gráficos; no emula FemtoRV, el MCP3008, memoria, tiempos de ejecución ni barrido HUB75. Usa Gamepad API con hasta dos mandos locales. Los récords se guardan en este navegador, no en una EEPROM. La interfaz exterior no forma parte de la matriz LED.</div></footer>
 </main>
 <script>
 'use strict';
@@ -50,7 +50,6 @@ const cvs = document.getElementById('display');
 const cx = cvs.getContext('2d', {alpha:false});
 cx.imageSmoothingEnabled=false;
 const statusEl=document.getElementById('status');
-const dirs={w:[0,-1],s:[0,1],a:[-1,0],d:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]};
 const FONT={
  A:['010','101','111','101','101'],B:['110','101','110','101','110'],C:['011','100','100','100','011'],D:['110','101','101','101','110'],E:['111','100','110','100','111'],F:['111','100','110','100','100'],G:['011','100','101','101','011'],H:['101','101','111','101','101'],I:['111','010','010','010','111'],J:['001','001','001','101','010'],K:['101','101','110','101','101'],L:['100','100','100','100','111'],M:['101','111','111','101','101'],N:['101','111','111','111','101'],O:['010','101','101','101','010'],P:['110','101','110','100','100'],Q:['010','101','101','111','011'],R:['110','101','110','101','101'],S:['011','100','010','001','110'],T:['111','010','010','010','010'],U:['101','101','101','101','111'],V:['101','101','101','101','010'],W:['101','101','111','111','101'],X:['101','101','010','101','101'],Y:['101','101','010','010','010'],Z:['111','001','010','100','111'],
  '0':['111','101','101','101','111'],'1':['010','110','010','010','111'],'2':['110','001','111','100','111'],'3':['110','001','011','001','110'],'4':['101','101','111','001','001'],'5':['111','100','110','001','110'],'6':['011','100','111','101','111'],'7':['111','001','001','001','001'],'8':['111','101','111','101','111'],'9':['111','101','111','001','110'],':':['000','010','000','010','000'],'-':['000','000','111','000','000'],' ':['000','000','000','000','000'],'+':['000','010','111','010','000']
@@ -64,6 +63,14 @@ let best={pac1:safeGet('fpga-demo-pac1'),snake1:safeGet('fpga-demo-snake1'),pac:
 let playerCount=2,menuStage='game';
 const recordKey=()=>selected+(playerCount===1?'1':'');
 let selected='pac',mode='menu',state=null,paused=false,last=0,acc=0,ticks=0;
+const padState={directions:[null,null],buttons:[false,false]};
+const PAD_DEADZONE=0.25;
+function readDirection(pad){
+ if(!pad)return null;
+ const x=pad.axes[0]||0,y=pad.axes[1]||0,ax=Math.abs(x),ay=Math.abs(y);
+ if(ax<=PAD_DEADZONE&&ay<=PAD_DEADZONE)return null;
+ return ax>ay?[x<0?-1:1,0]:[0,y<0?-1:1];
+}
 const key=(p)=>p.x+','+p.y;
 // Interfaz exterior: no altera los píxeles de la matriz.
 function setStatus(v){statusEl.textContent=v;const panel=document.getElementById('session');panel.classList.remove('changed');void panel.offsetWidth;panel.classList.add('changed')}
@@ -73,8 +80,8 @@ function updateUI(){
  for(const id of ['pac','snake']){const button=document.getElementById(id);button.setAttribute('aria-pressed',String(selected===id));button.classList.toggle('menu-cursor',mode==='menu'&&menuStage==='game'&&selected===id)}
  for(const [id,n] of [['solo',1],['duo',2]]){const button=document.getElementById(id);button.setAttribute('aria-pressed',String(playerCount===n));button.disabled=mode!=='menu';button.classList.toggle('menu-cursor',mode==='menu'&&menuStage==='players'&&playerCount===n)}
  document.getElementById('menu-heading').textContent=menuStage==='game'?'1. Elige el juego':'2. Elige los jugadores';
- document.getElementById('menu-help').textContent=menuStage==='game'?'↑ ↓ eligen juego · Enter confirma':'← → o ↑ ↓ eligen jugadores · Enter inicia · Esc vuelve';
- document.getElementById('solo-help').textContent=playerCount===1?'Modo individual: usa WASD o las flechas. El jugador 2 está desactivado.':'Modo de dos jugadores: J1 usa WASD y J2 usa las flechas.';
+ document.getElementById('menu-help').textContent=menuStage==='game'?'J1 arriba/abajo elige juego · Botón J1 confirma':'J1 izquierda/derecha elige jugadores · Botón J1 inicia';
+ document.getElementById('solo-help').textContent=playerCount===1?'Modo individual: J1 controla el juego.':'Modo de dos jugadores: cada joystick controla a su jugador.';
  document.getElementById('second-score').classList.toggle('inactive',playerCount===1);
  document.getElementById('pause').disabled=!playing;
  document.getElementById('pause').textContent=paused?'Continuar':'Pausa';
@@ -88,46 +95,56 @@ function updateUI(){
  document.getElementById('record').textContent='RÉCORD '+String(best[recordKey()]).padStart(3,'0');
  document.getElementById('rules').textContent=playerCount===1?(pac?'Recoge todos los puntos y evita los dos fantasmas. Tienes tres vidas.':'Come para crecer y superar tu récord. La partida termina al chocar con un borde o tu cuerpo.'):pac?'Recojan todos los puntos y eviten los dos fantasmas. La puntuación y las tres vidas son del equipo.':'Coman para crecer. Chocar con un borde o un cuerpo elimina al jugador. Si ambos chocan en el mismo paso, hay empate.';
 }
-function togglePause(){if(mode!=='play')return;paused=!paused;acc=0;setStatus(paused?'Partida pausada. Enter continúa; Escape vuelve al menú.':'Partida en curso');draw()}
+function togglePause(){if(mode!=='play')return;paused=!paused;acc=0;setStatus(paused?'Partida pausada. Pulsa J1 para continuar o ambos botones para volver al menú.':'Partida en curso');draw()}
 // Generador de 16 bits reproducible: misma semilla + entradas = misma partida.
 let rng=0xace1;
 function randomInt(n){rng=(rng>>>1)^((rng&1)?0xb400:0);return rng%n}
 
-function menuStatus(){setStatus(menuStage==='game'?'Elige un juego con ↑ ↓ y confirma con Enter.':(selected==='pac'?'PAC-MAN':'Snake')+' · Elige 1 o 2 jugadores con las flechas y pulsa Enter.')}
+function menuStatus(){setStatus(menuStage==='game'?'J1 arriba/abajo elige juego; pulsa J1 para confirmar.':(selected==='pac'?'PAC-MAN':'Snake')+' · J1 izquierda/derecha elige jugadores; pulsa J1 para iniciar.')}
 function choose(which){selected=which;mode='menu';menuStage='players';state=null;paused=false;menuStatus();draw()}
 function choosePlayers(n){if(mode!=='menu')return;playerCount=n;menuStage='players';menuStatus();draw()}
 function menu(){mode='menu';menuStage='game';state=null;paused=false;menuStatus();draw()}
-// Dos pasos de menú. La selección se refleja en el panel y en la matriz.
-function menuControls(k){
- if(k==='Escape'){menu();return true}
- if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(k)){
-  if(menuStage==='game')selected=selected==='pac'?'snake':'pac';
-  else playerCount=playerCount===1?2:1;
-  menuStatus();draw();return true;
- }
- if(k==='Enter'||k===' '){if(menuStage==='game'){menuStage='players';menuStatus();draw()}else start();return true}
- return false;
-}
 function end(message,score){mode='end';paused=false;state.endMessage=message;
  const bestKey=recordKey();if(score>best[bestKey]){best[bestKey]=score;safePut('fpga-demo-'+bestKey,score)}
  setStatus(message+' · Récord: '+best[bestKey]);draw()}
 function start(){rng=0xace1;state=selected==='pac'?makePac():makeSnake();mode='play';paused=false;acc=0;ticks=0;setStatus((selected==='pac'?'PAC-MAN':'Snake')+' · '+playerCount+' jugador'+(playerCount===2?'es':'')+' · Partida en curso');draw()}
-function controls(event){const k=event.key.length===1?event.key.toLowerCase():event.key;
- // En el menú, Enter confirma el paso activo incluso tras usar el ratón.
- if(mode==='menu'&&(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Enter',' ','Escape'].includes(k))){event.preventDefault();if(!event.repeat)menuControls(k);return}
- if(k==='Enter'&&event.target?.tagName==='BUTTON')return;
- if(k in dirs || [' ','Enter','Escape','1','2','p','r'].includes(k))event.preventDefault();
- if(event.repeat)return;
- if(k==='1'){choose('pac');return}if(k==='2'){choose('snake');return}if(k==='r'){menu();return}
- if(k==='Escape'){if(mode==='play'&&!paused)togglePause();else menu();return}
- if(k==='Enter'||k===' '){if(paused)togglePause();else if(mode!=='play')start();return}
- if(k==='p'){togglePause();return}
- if(!(k in dirs)||mode!=='play'||paused)return;
- const id=playerCount===2&&k.startsWith('Arrow')?1:0,d=dirs[k];
- if(selected==='pac')state.want[id]=d;
- else{const sn=state.snakes[id];if(sn.alive&&(sn.dir[0]+d[0]!==0||sn.dir[1]+d[1]!==0))sn.next=d}
+function pollGamepads(){
+ const pads=typeof navigator.getGamepads==='function'?navigator.getGamepads():[];
+ const currentDirections=[readDirection(pads[0]),readDirection(pads[1])];
+ const currentButtons=[!!pads[0]?.buttons[0]?.pressed,!!pads[1]?.buttons[0]?.pressed];
+ const back=currentButtons[0]&&currentButtons[1]&&
+             !(padState.buttons[0]&&padState.buttons[1]);
+ if(back){menu()}
+ else{
+  if(currentButtons[0]&&!padState.buttons[0]){
+   if(mode==='menu'){
+    if(menuStage==='game'){menuStage='players';menuStatus();draw()}
+    else start();
+   }else if(mode==='end')start();
+   else togglePause();
+  }
+  if(currentButtons[1]&&!padState.buttons[1]&&mode==='play')start();
+  if(mode==='menu'&&currentDirections[0]&&
+     (currentDirections[0][0]!==padState.directions[0]?.[0]||
+      currentDirections[0][1]!==padState.directions[0]?.[1])){
+   if(menuStage==='game'&&currentDirections[0][1]!==0)
+    selected=currentDirections[0][1]<0?'pac':'snake';
+   else if(menuStage==='players'&&currentDirections[0][0]!==0)
+    playerCount=currentDirections[0][0]<0?1:2;
+   menuStatus();draw();
+  }
+  if(mode==='play'&&!paused)for(let i=0;i<playerCount;i++){
+   const d=currentDirections[i];if(!d)continue;
+   if(selected==='pac')state.want[i]=d;
+   else{
+    const sn=state.snakes[i];
+    if(sn.alive&&(sn.dir[0]+d[0]!==0||sn.dir[1]+d[1]!==0))sn.next=d;
+   }
+  }
+ }
+ padState.directions=currentDirections;
+ padState.buttons=currentButtons;
 }
-addEventListener('keydown',controls);
 addEventListener('blur',()=>{if(mode==='play'&&!paused)togglePause()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&mode==='play'&&!paused)togglePause()});
 document.getElementById('pac').onclick=()=>choose('pac');
@@ -226,13 +243,13 @@ function drawMenu(){
   rect(3,selected==='pac'?24:36,58,9,6);
   center('1 PACMAN',26,selected==='pac'?0:7);
   center('2 SNAKE',38,selected==='snake'?0:7);
-  center('ENTER ELEGIR',55,3);
+  center('BOTON J1 ELEGIR',55,3);
  }else{
   center(selected==='pac'?'PACMAN':'SNAKE',15,7);
   rect(3,playerCount===1?24:36,58,9,2);
   center('1 JUGADOR',26,playerCount===1?0:7);
   center('2 JUGADORES',38,playerCount===2?0:7);
-  center('ENTER JUGAR',55,3);
+  center('BOTON J1 JUGAR',55,3);
  }
 }
 function drawResult(){const s=state;
@@ -245,7 +262,7 @@ function drawResult(){const s=state;
  else center(playerCount===1?'FIN DEL RETO':'PERDIERON',23,4);
  center('RECORD',36,7);
  center(String(best[recordKey()]).padStart(3,'0'),44,6);
- center('ENTER REPETIR',57,2)
+ center('BOTON J1 REPETIR',57,2)
 }
 function draw(){updateUI();rect(0,0,64,64,0);
  if(mode==='menu'){drawMenu();return}
@@ -254,6 +271,7 @@ function draw(){updateUI();rect(0,0,64,64,0);
  if(paused){rect(8,22,48,18,0);center('PAUSA',28,6)}
 }
 function loop(ts){if(!last)last=ts;const dt=Math.min(90,ts-last);last=ts;
+ pollGamepads();
  if(mode==='play'&&!paused){acc+=dt;const step=selected==='pac'?130:155;
  if(acc>=step){acc-=step;ticks++;if(selected==='pac')pacTick();else snakeTick();draw()}}
  requestAnimationFrame(loop)}

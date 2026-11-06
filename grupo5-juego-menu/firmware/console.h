@@ -18,14 +18,16 @@
 enum { COL_BLACK=0, COL_BLUE=1, COL_GREEN=2, COL_CYAN=3,
        COL_RED=4, COL_MAGENTA=5, COL_YELLOW=6, COL_WHITE=7 };
 
-/* Máscara de controles abstractos, NO códigos PS/2.
-   El grupo 2 se ocupa de traducir los scan codes a estos controles. */
-enum {
-    K_W=1u<<0, K_A=1u<<1, K_S=1u<<2, K_D=1u<<3,
-    K_UP=1u<<4, K_LEFT=1u<<5, K_DOWN=1u<<6, K_RIGHT=1u<<7,
-    K_ENTER=1u<<8, K_ESCAPE=1u<<9,
-    K_GAME1=1u<<10, K_GAME2=1u<<11, K_PAUSE=1u<<12, K_RESTART=1u<<13
-};
+/* Valores MCP3008 de 10 bits. El centro es 512; el dead zone evita deriva. */
+#define JOYSTICK_CENTER 512u
+#define JOYSTICK_DEADZONE 128u
+enum { JOY_BUTTON_1=1u<<0, JOY_BUTTON_2=1u<<1,
+       JOY_BUTTON_BOTH=JOY_BUTTON_1|JOY_BUTTON_2 };
+typedef struct {
+    uint16_t x[2]; /* J1_X/CH0, J2_X/CH2 */
+    uint16_t y[2]; /* J1_Y/CH1, J2_Y/CH3 */
+    uint8_t buttons; /* bit 0: J1, bit 1: J2 */
+} JoystickInput;
 
 /* PAC-MAN individual/cooperativo y Snake individual/competitivo. */
 typedef enum { MODE_MENU=0, MODE_PACMAN=1, MODE_SNAKE=2, MODE_RESULT=3 } Mode;
@@ -40,7 +42,7 @@ typedef struct {
     Mode mode;
     Mode last_game;
     Result result;
-    uint16_t last_keys;
+    uint8_t last_buttons, last_directions[2];
     uint8_t selection, paused, players;
     uint16_t records[2]; /* Récords de sesión; sin persistencia EEPROM. */
     Sound sound; /* Evento del último paso; consumir una sola vez. */
@@ -57,8 +59,8 @@ typedef struct {
 
 void console_init(Console *c);
 /* Una llamada corresponde a un paso de lógica (propuesta: 150 ms).
-   keys representa teclas mantenidas; las acciones de menú detectan flancos. */
-void console_step(Console *c, uint16_t keys);
+   Ejes: 0..1023, centro 512; y bajo=arriba y alto=abajo. */
+void console_step(Console *c, JoystickInput input);
 /* Genera exactamente 4096 bytes de colores 0..7. */
 void console_render(const Console *c, uint8_t framebuffer[SCREEN_W*SCREEN_H]);
 

@@ -48,11 +48,11 @@ void start_snake(Console *c) {
     c->snake[1].body[2]=(Cell){25,19};
     place_apple(c);
 }
-void snake_tick(Console *c, uint16_t keys) {
+void snake_tick(Console *c, const JoystickInput *input) {
     Cell next[2]; uint8_t grows[2]={0,0},dies[2]={0,0};
     for(unsigned p=0;p<c->players;++p) {
         uint8_t proposed;
-        if(key_direction(keys,(int)p,&proposed) &&
+        if(joystick_direction(input,p,&proposed) &&
            ((proposed+2u)%4u)!=c->snake[p].direction)
             c->snake[p].direction=proposed;
         next[p]=moved(c->snake[p].body[0],c->snake[p].direction);

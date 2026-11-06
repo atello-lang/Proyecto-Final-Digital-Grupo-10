@@ -15,10 +15,11 @@ static inline int inside_snake(Cell p) { return p.x<SNAKE_W && p.y<SNAKE_H; }
 static inline int passable(const Console *c, Cell p) {
     return inside(p) && !c->walls[cell_id(p.x,p.y)];
 }
-int key_direction(uint16_t keys, int player, uint8_t *dir);
+uint8_t joystick_direction_mask(const JoystickInput *input, unsigned player);
+int joystick_direction(const JoystickInput *input, unsigned player, uint8_t *dir);
 void set_result(Console *c, Result result);
 void start_pacman(Console *c);
-void pacman_tick(Console *c, uint16_t keys);
+void pacman_tick(Console *c, const JoystickInput *input);
 void start_snake(Console *c);
-void snake_tick(Console *c, uint16_t keys);
+void snake_tick(Console *c, const JoystickInput *input);
 #endif
