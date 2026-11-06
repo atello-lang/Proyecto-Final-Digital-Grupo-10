@@ -28,7 +28,103 @@ El joystick entrega dos voltajes analógicos, uno por eje, entre 0 y 3.3 V. Como
 - [ ] Escribir el testbench
 - [ ] Probar en la placa
 
+
 # 1. Terminología básica
+
+En esta sección explicamos los términos que usamos a lo largo de la documentación. Los redactamos con palabras simples y, cuando nos ayuda a entenderlos, con una analogía, para que cualquier persona pueda seguir el resto del documento sin conocimientos previos.
+
+## El proyecto en una frase
+
+El joystick produce voltajes. Un chip los convierte en números y se los entrega a la FPGA. La FPGA deja esos números en unas "casillas" que el procesador puede leer.
+
+## Los componentes
+
+Primero presentamos las piezas que intervienen en nuestro periférico.
+
+| Término | Cómo lo explicamos |
+|---|---|
+| **Joystick analógico** | Una palanca con dos potenciómetros (perillas variables), uno por eje. Al moverla, el voltaje de cada eje cambia de forma continua entre 0 V y 3.3 V. Centrada da ~1.65 V. Su botón es un interruptor aparte (apretado o no). |
+| **Señal analógica** | Una señal que puede valer cualquier valor intermedio, como un regulador de volumen. |
+| **Señal digital** | Una señal que solo vale 0 o 1, como un interruptor. Los chips digitales solo entienden esto. |
+| **FPGA (Tang Nano)** | Un chip cuyos circuitos internos se pueden reconfigurar. En nuestro diseño hace de "cerebro" del periférico. Es solo digital, por eso no puede medir un voltaje directamente. |
+| **ADC (conversor analógico-digital)** | Un traductor que mide un voltaje y lo entrega como número. |
+| **MCP3008** | El ADC concreto que usamos. Tiene 8 entradas y entrega números de 10 bits. |
+| **FemtoRV** | El procesador (tipo RISC-V) que ejecuta el juego. Lee los valores del joystick desde nuestro periférico. |
+| **SoC** | "Sistema en un chip": el procesador y sus periféricos, todo dentro de la FPGA. |
+| **Periférico** | Un bloque que ayuda al procesador con una tarea concreta. El nuestro se encarga del joystick. |
+
+## Bits, números y resolución
+
+Aquí explicamos cómo se representa la medida del voltaje.
+
+| Término | Cómo lo explicamos |
+|---|---|
+| **Bit** | La unidad mínima de información: 0 o 1. |
+| **Byte** | Un grupo de 8 bits. |
+| **10 bits** | El ADC entrega un número de 0 a 1023 (1024 valores posibles). |
+| **Resolución** | Qué tan fino mide el ADC. Con 3.3 V repartidos en 1024 pasos, cada paso vale ≈ 3.22 mV. |
+| **Ejemplo** | 0 V → 0, 1.65 V → ~512, 3.3 V → 1023. |
+| **MSB / LSB** | El bit más significativo (el de más peso, el primero que sale) y el menos significativo (el último). |
+| **B9 … B0** | Los 10 bits del resultado. B9 es el MSB y B0 es el LSB. |
+| **VREF** | El voltaje de referencia, que define el valor máximo medible. En nuestro caso son 3.3 V. |
+| **Muestreo** | Tomar una "foto" del voltaje en un instante. El chip la guarda un momento para medirla con calma. |
+| **Conversión** | El proceso de convertir esa foto del voltaje en el número de 10 bits. |
+
+## El protocolo SPI
+
+SPI es un "idioma" para que dos chips se hablen. Nos ayuda pensarlo como una conversación en la que uno pregunta y el otro responde, con un metrónomo marcando el ritmo.
+
+| Término | Cómo lo explicamos |
+|---|---|
+| **SPI** | El protocolo de comunicación que usamos entre la FPGA y el ADC. |
+| **Maestro** | Quien manda y decide cuándo se habla. En nuestro diseño es la FPGA. |
+| **Esclavo** | Quien obedece y responde. En nuestro diseño es el MCP3008. |
+| **SCLK** (reloj) | El metrónomo. Cada pulso marca "ahora cambia un bit" o "ahora lee un bit". Lo genera el maestro. |
+| **CS** (chip select) | El "levanto la mano para hablarte". En **bajo** el chip escucha y en **alto** lo ignora todo. Lo bajamos al inicio de una conversión y lo subimos al final. |
+| **MOSI / DIN** | La línea por donde el maestro envía datos al ADC (la pregunta). |
+| **MISO / DOUT** | La línea por donde el ADC envía datos al maestro (la respuesta, el número). |
+| **Flanco de subida** | El instante en que SCLK pasa de 0 a 1. |
+| **Flanco de bajada** | El instante en que SCLK pasa de 1 a 0. |
+| **Modo 0 (CPOL=0, CPHA=0)** | Una de las "reglas de etiqueta" de SPI: SCLK descansa en 0, los datos se leen en el flanco de subida y cambian en el de bajada. Ambos chips deben usar el mismo modo. |
+| **Alta impedancia** | La línea queda "desconectada", sin mandar ni 0 ni 1. El ADC deja DOUT así mientras no tiene nada que decir. |
+
+## La trama (la "pregunta" y la "respuesta")
+
+La trama es lo que la FPGA y el ADC se dicen en cada conversación.
+
+| Término | Cómo lo explicamos |
+|---|---|
+| **Trama** | La secuencia completa de bits de una conversación. En nuestro caso son 17 pulsos de SCLK. |
+| **Start bit** | Un 1 que avisa "empieza la petición". |
+| **SGL/DIFF** | Elige cómo medir. En 1 (single-ended) mide cada entrada contra tierra y en 0 mide la diferencia entre dos entradas. Nosotros usamos 1. |
+| **D2 D1 D0** | Tres bits que eligen el canal (de 0 a 7). Por ejemplo, 000 es el canal 0. |
+| **Canal (CH0 … CH7)** | Cada una de las 8 entradas del ADC. Usamos CH0 a CH3, uno por eje de cada joystick. |
+| **Pulso de muestreo** | Un pulso en el que el ADC toma la "foto" del voltaje y no pasa información. |
+| **Null bit (bit nulo)** | Un 0 de relleno que el ADC envía justo antes del resultado. Lo ignoramos. |
+
+## Los tiempos del datasheet
+
+El datasheet es el manual del fabricante. Estos son los límites que indica y que debemos respetar en el diseño:
+
+| Término | Cómo lo explicamos |
+|---|---|
+| **fCLK (SCLK máximo)** | La velocidad máxima del reloj. A 3.3 V usamos ≤ 1.35 MHz (1.35 millones de pulsos por segundo) por seguridad. |
+| **tHI / tLO** | El tiempo mínimo que SCLK debe estar en alto y en bajo, 125 ns cada uno. |
+| **tSUCS** | El tiempo mínimo entre bajar CS y el primer pulso de SCLK (100 ns). El chip necesita un instante para "despertar". |
+| **tCSH** | El tiempo mínimo que CS debe estar en alto entre una conversión y la siguiente (270 ns). Es un descanso entre una y otra. |
+| **ns, µs, MHz** | Nanosegundo (una milmillonésima de segundo), microsegundo (una millonésima) y megahercio (millones de pulsos por segundo). |
+| **ksps** | Miles de muestras por segundo. El MCP3008 llega a 75 ksps a 3.3 V, de sobra para un joystick. |
+| **Divisor de reloj** | Un contador que ralentiza el reloj rápido de la FPGA (27 MHz, por ejemplo) hasta la velocidad más lenta de SCLK. |
+
+## Términos que usaremos en las siguientes tareas
+
+| Término | Cómo lo explicamos |
+|---|---|
+| **Registro** | Una casilla de memoria que guarda un valor. Nuestro periférico tendrá varias: una para X, otra para Y, otra para el botón, etc. |
+| **Mapa de memoria / dirección base (0x43_0000)** | Cada periférico tiene su "dirección postal". El procesador lee en `0x43_0000` y siguientes para hablar con el joystick. |
+| **Verilog** | El lenguaje con el que describimos el circuito dentro de la FPGA. |
+| **FSM (máquina de estados)** | Un circuito que sigue una lista de pasos en orden. La nuestra será: bajar CS, enviar el comando, leer los 10 bits, subir CS. |
+| **Testbench** | Un "banco de pruebas" simulado donde comprobamos el diseño con un ADC falso antes de llevarlo a la placa. |
 
 # 2. SPI y como funciona
 
