@@ -186,9 +186,9 @@ void console_render(const Console *c,uint8_t f[SCREEN_W*SCREEN_H]) {
         if(c->paused) {
             rect(f,4,18,56,34,COL_BLUE);
             centered(f,"PAUSA",21,COL_YELLOW);
-            centered(f,"P CONTINUAR",30,COL_WHITE);
-            centered(f,"R REINICIAR",38,COL_GREEN);
-            centered(f,"ESC MENU",46,COL_CYAN);
+            centered(f,"J1 CONTINUAR",30,COL_WHITE);
+            centered(f,"J2 REINICIAR",38,COL_GREEN);
+            centered(f,"AMBOS MENU",46,COL_CYAN);
         }
     }
 }
