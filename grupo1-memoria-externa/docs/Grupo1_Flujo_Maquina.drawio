@@ -5,7 +5,7 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="c3" value="&lt;b style=&quot;font-size:24px&quot;&gt;Grupo 1 · Memoria externa — Diagrama de flujo de lo que hace la máquina&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:13px;color:#555&quot;&gt;Software en el FemtoRV32 usando los controladores SPI (SPI-RAM y Flash) e I2C (EEPROM). Dos momentos: al encender y al terminar una partida con récord.&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontFamily=Helvetica;" vertex="1" parent="1">
+        <mxCell id="c3" value="&lt;b style=&quot;font-size:24px&quot;&gt;Grupo 1 · Memoria externa — Diagrama de flujo de lo que hace la máquina&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:13px;color:#555&quot;&gt;Software en el FemtoRV32 usando los controladores SPI (Flash de la tarjeta) e I2C (EEPROM). Dos momentos: al encender y al terminar una partida con récord.&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontFamily=Helvetica;" vertex="1" parent="1">
           <mxGeometry x="40" y="20" width="1500" height="60" as="geometry" />
         </mxCell>
         <mxCell id="c4" value="&lt;b style=&quot;font-size:14px&quot;&gt;a) Al encender: autotest, gráficos y lectura de récords&lt;/b&gt;" style="text;strokeColor=none;fillColor=none;html=1;align=left;fontFamily=Helvetica;" vertex="1" parent="1">
@@ -17,70 +17,49 @@
         <mxCell id="c6" value="La FPGA se configura desde&lt;br&gt;la Flash; el programa queda&lt;br&gt;en la BRAM" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;dashed=1;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
           <mxGeometry x="357" y="199" width="206" height="65" as="geometry" />
         </mxCell>
-        <mxCell id="c7" value="SPI-RAM: escribir 0x55,&lt;br&gt;0xAA, 0x00, 0xFF en 4&lt;br&gt;direcciones y leerlas" style="shape=parallelogram;fixedSize=1;size=14;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="353" y="298" width="214" height="65" as="geometry" />
-        </mxCell>
-        <mxCell id="c8" value="¿Lectura = patrón?" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="345" y="397" width="230" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="c9" value="Aviso en pantalla y UART;&lt;br&gt;seguir en modo de prueba" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="84" y="407" width="193" height="50" as="geometry" />
-        </mxCell>
-        <mxCell id="c10" value="Flash: comando 0x9F, leer&lt;br&gt;JEDEC ID" style="shape=parallelogram;fixedSize=1;size=14;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="346" y="500" width="227" height="50" as="geometry" />
+        <mxCell id="c10" value="Autotest SPI: comando 0x9F,&lt;br&gt;leer el JEDEC ID" style="shape=parallelogram;fixedSize=1;size=14;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="346" y="298" width="227" height="50" as="geometry" />
         </mxCell>
         <mxCell id="c11" value="¿ID ≠ 0 y ≠ FFFFFF?" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="340" y="584" width="240" height="70" as="geometry" />
+          <mxGeometry x="340" y="382" width="240" height="70" as="geometry" />
         </mxCell>
         <mxCell id="c12" value="Flash: leer encabezado en&lt;br&gt;0x400000 («D1AS», largo,&lt;br&gt;suma)" style="shape=parallelogram;fixedSize=1;size=14;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="346" y="688" width="227" height="65" as="geometry" />
+          <mxGeometry x="346" y="486" width="227" height="65" as="geometry" />
         </mxCell>
         <mxCell id="c13" value="¿Firma y suma&lt;br&gt;correctas?" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="365" y="787" width="190" height="95" as="geometry" />
+          <mxGeometry x="365" y="585" width="190" height="95" as="geometry" />
         </mxCell>
         <mxCell id="c14" value="Usar menú mínimo de texto;&lt;br&gt;aviso por UART" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="640" y="810" width="200" height="50" as="geometry" />
+          <mxGeometry x="640" y="608" width="200" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="c15" value="Copiar gráficos Flash → SPI-&lt;br&gt;RAM → BRAM" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="354" y="916" width="213" height="50" as="geometry" />
+        <mxCell id="c15" value="Copiar gráficos Flash →&lt;br&gt;BRAM (lectura secuencial)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="354" y="714" width="213" height="50" as="geometry" />
         </mxCell>
         <mxCell id="c16" value="EEPROM (I2C): leer 4 bytes&lt;br&gt;desde 0x0000 (firma,&lt;br&gt;versión, N)" style="shape=parallelogram;fixedSize=1;size=14;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="343" y="1000" width="234" height="65" as="geometry" />
+          <mxGeometry x="343" y="798" width="234" height="65" as="geometry" />
         </mxCell>
         <mxCell id="c17" value="¿La EEPROM responde&lt;br&gt;con ACK?" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="340" y="1099" width="240" height="95" as="geometry" />
+          <mxGeometry x="340" y="897" width="240" height="95" as="geometry" />
         </mxCell>
         <mxCell id="c18" value="Récords solo en RAM; aviso&lt;br&gt;por UART" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="640" y="1122" width="200" height="50" as="geometry" />
+          <mxGeometry x="640" y="920" width="200" height="50" as="geometry" />
         </mxCell>
         <mxCell id="c19" value="¿Firma «D1» y&lt;br&gt;versión 1?" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="365" y="1228" width="190" height="95" as="geometry" />
+          <mxGeometry x="365" y="1026" width="190" height="95" as="geometry" />
         </mxCell>
         <mxCell id="c20" value="Escribir tabla vacía («---»,&lt;br&gt;0)" style="shape=parallelogram;fixedSize=1;size=14;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="57" y="1250" width="247" height="50" as="geometry" />
+          <mxGeometry x="57" y="1048" width="247" height="50" as="geometry" />
         </mxCell>
         <mxCell id="c21" value="Leer los N bloques de 26 B&lt;br&gt;(ID del juego + top 5)" style="shape=parallelogram;fixedSize=1;size=14;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="343" y="1357" width="234" height="50" as="geometry" />
+          <mxGeometry x="343" y="1155" width="234" height="50" as="geometry" />
         </mxCell>
         <mxCell id="c22" value="Tabla de récords en RAM; ir&lt;br&gt;al menú" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="347" y="1441" width="226" height="50" as="geometry" />
+          <mxGeometry x="347" y="1239" width="226" height="50" as="geometry" />
         </mxCell>
         <mxCell id="c23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#444444;fontSize=10;fontColor=#1a5276;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="c5" target="c6">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="c24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#444444;fontSize=10;fontColor=#1a5276;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="c6" target="c7">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="c25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#444444;fontSize=10;fontColor=#1a5276;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="c7" target="c8">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="c26" value="&lt;b&gt;No&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#444444;fontSize=10;fontColor=#1a5276;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="c8" target="c9">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="c27" value="&lt;b&gt;Sí&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#444444;fontSize=10;fontColor=#1a5276;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="c8" target="c10">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="c28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#444444;fontSize=10;fontColor=#1a5276;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="c9" target="c10">
+        <mxCell id="c24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#444444;fontSize=10;fontColor=#1a5276;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="c6" target="c10">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="c29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#444444;fontSize=10;fontColor=#1a5276;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="c10" target="c11">
@@ -164,8 +143,8 @@
         <mxCell id="c55" value="I2C: START, 0xA0,&lt;br&gt;dirección (2 B), datos,&lt;br&gt;STOP" style="shape=parallelogram;fixedSize=1;size=14;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
           <mxGeometry x="988" y="769" width="214" height="65" as="geometry" />
         </mxCell>
-        <mxCell id="c56" value="Sondeo: START + 0xA0 hasta&lt;br&gt;recibir ACK (≈ 5 ms)" style="shape=parallelogram;fixedSize=1;size=14;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
-          <mxGeometry x="978" y="868" width="234" height="50" as="geometry" />
+        <mxCell id="c56" value="Sondeo: START + 0xA0 hasta&lt;br&gt;recibir ACK; esperar 1 ms&lt;br&gt;entre intentos (graba ≤ 5 ms)" style="shape=parallelogram;fixedSize=1;size=14;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="978" y="868" width="234" height="65" as="geometry" />
         </mxCell>
         <mxCell id="c57" value="¿ACK antes de 10&lt;br&gt;intentos?" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1">
           <mxGeometry x="990" y="952" width="210" height="95" as="geometry" />
@@ -240,7 +219,7 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="c3" value="&lt;b style=&quot;font-size:24px&quot;&gt;M3. Flujos de hardware: motor SPI y motor I2C&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:13px;color:#555&quot;&gt;Máquinas de estado dentro de los controladores, con el reloj de 50 MHz.&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontFamily=Helvetica;" vertex="1" parent="1">
+        <mxCell id="c3" value="&lt;b style=&quot;font-size:24px&quot;&gt;Grupo 1 · Flujos de hardware: motor SPI y motor I2C&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:13px;color:#555&quot;&gt;Máquinas de estado dentro de los controladores, con el reloj de 50 MHz.&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontFamily=Helvetica;" vertex="1" parent="1">
           <mxGeometry x="40" y="20" width="1500" height="60" as="geometry" />
         </mxCell>
         <mxCell id="c4" value="&lt;table style=&quot;font-size:11px;width:100%&quot;&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px;vertical-align:top;border-right:1px solid #ccc&quot;&gt;&lt;b&gt;Responsable&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;background:#e1d5e7;border:1px solid #9673a6;padding:0 4px;border-radius:3px;white-space:nowrap&quot;&gt;Grupo 1 · Memoria externa&lt;/span&gt;&lt;/td&gt;&lt;td style=&quot;padding:3px 8px;vertical-align:top;border-right:1px solid #ccc&quot;&gt;&lt;b&gt;Prioridad&lt;/b&gt;&lt;br&gt;5&lt;/td&gt;&lt;td style=&quot;padding:3px 8px;vertical-align:top;border-right:1px solid #ccc&quot;&gt;&lt;b&gt;Se dispara con&lt;/b&gt;&lt;br&gt;Escritura de CONTROL con START (SPI) o con un comando (I2C)&lt;/td&gt;&lt;td style=&quot;padding:3px 8px;vertical-align:top;border-right:1px solid #ccc&quot;&gt;&lt;b&gt;HW / SW&lt;/b&gt;&lt;br&gt;HW&lt;/td&gt;&lt;td style=&quot;padding:3px 8px;vertical-align:top;border-right:1px solid #ccc&quot;&gt;&lt;b&gt;Sincronización&lt;/b&gt;&lt;br&gt;BUSY = 1 durante la transacción; la CPU sondea&lt;/td&gt;&lt;td style=&quot;padding:3px 8px;vertical-align:top;border-right:1px solid #ccc&quot;&gt;&lt;b&gt;Entradas&lt;/b&gt;&lt;br&gt;CONTROL, ADDR, WDATA / TX_DATA, CLK_DIV&lt;/td&gt;&lt;td style=&quot;padding:3px 8px;vertical-align:top;border-right:1px solid #ccc&quot;&gt;&lt;b&gt;Salidas&lt;/b&gt;&lt;br&gt;SCK, MOSI, CS / SCL, SDA; RDATA / RX_DATA, DONE, ACK_IN&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;arcSize=6;html=1;align=left;verticalAlign=top;whiteSpace=wrap;overflow=fill;fillColor=#e1d5e7;strokeColor=#9673a6;fontFamily=Helvetica;" vertex="1" parent="1">

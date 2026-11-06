@@ -12,16 +12,17 @@ Controladores de las memorias externas de la consola y la persistencia de los r�
 
 _(Describir el periférico y su función dentro de la consola.)_
 
-- Dispositivo(s): SPI-RAM (memoria de trabajo), Flash SPI de la tarjeta (gráficos), EEPROM I2C (récords que no se borran al apagar)
+- Dispositivo(s): Flash SPI de la tarjeta (gráficos) y EEPROM I2C 24LC256 (récords que no se borran al apagar)
 - Protocolo: SPI e I2C
-- Dirección base en el mapa de memoria: `0x41_0000` SPI-RAM · `0x42_0000` Flash · `0x46_0000` I2C
+- Dirección base en el mapa de memoria: `0x42_0000` Flash · `0x46_0000` I2C
 
 ## Tareas
 
-- [ ] Estudiar los protocolos SPI e I2C y las hojas de datos de las memorias
-- [ ] Definir los registros de cada controlador
-- [ ] Diseñar el controlador SPI
-- [ ] Diseñar el controlador I2C
+- [x] Estudiar los protocolos SPI e I2C y las hojas de datos de las memorias
+- [x] Definir los registros de cada controlador
+- [x] Diagramas de flujo, de bloques y de tiempos
+- [ ] Diseñar el controlador SPI (Flash de la tarjeta)
+- [ ] Diseñar el controlador I2C (EEPROM 24LC256)
 - [ ] Definir el formato de la tabla de récords
 - [ ] Escribir los testbenches
 - [ ] Probar en la placa
@@ -39,7 +40,7 @@ Diagramas de flujo (clic para abrirlos en draw.io):
 - [Diagrama de flujo desde el punto de vista del usuario](https://app.diagrams.net/#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fwwilchesc%2FProyecto-Final-Digital-Grupo-10%2Fmain%2Fgrupo1-memoria-externa%2Fdocs%2FGrupo1_Flujo_Usuario.drawio)
 - [Diagrama de flujo de lo que hace la máquina](https://app.diagrams.net/#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fwwilchesc%2FProyecto-Final-Digital-Grupo-10%2Fmain%2Fgrupo1-memoria-externa%2Fdocs%2FGrupo1_Flujo_Maquina.drawio)
 
-_(Agregar aquí diagrama de bloques y cálculos. Guardar los archivos en `docs/`.)_
+- [Diagrama de bloques, señales y tiempos](https://app.diagrams.net/#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fwwilchesc%2FProyecto-Final-Digital-Grupo-10%2Fmain%2Fgrupo1-memoria-externa%2Fdocs%2FGrupo1_Diagrama_Funcionamiento.drawio)
 
 ## Registros
 
@@ -63,6 +64,7 @@ _(Cómo correr el testbench y qué se verificó. Archivos en `sim/`.)_
 | --- | --- |
 | 22/10/2026 | Diagramas de flujo del grupo: [vista del usuario](https://app.diagrams.net/#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fwwilchesc%2FProyecto-Final-Digital-Grupo-10%2Fmain%2Fgrupo1-memoria-externa%2Fdocs%2FGrupo1_Flujo_Usuario.drawio) y [lo que hace la máquina](https://app.diagrams.net/#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fwwilchesc%2FProyecto-Final-Digital-Grupo-10%2Fmain%2Fgrupo1-memoria-externa%2Fdocs%2FGrupo1_Flujo_Maquina.drawio) |
 | 28/10/2026 | Tarea de actividades para todos los grupos: clasificación de SPI e I2C, diagrama de funcionamiento, mapa de pines, registros MMIO y lista de compras con precios ([ver carpeta](tareas-y-actividades/)) |
+| 05/11/2026 | Se descarta la SPI-RAM 23LC1024: los gráficos van directo de la Flash a la BRAM. Diagramas, pines (12 → 8), registros y lista de compras actualizados ([por qué](tareas-y-actividades/README.md#cambio-de-diseño-se-descarta-la-spi-ram-05112026)) |
 
 ## Pendientes y problemas
 

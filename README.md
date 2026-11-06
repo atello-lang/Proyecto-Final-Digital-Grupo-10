@@ -33,7 +33,7 @@ Vamos a construir una consola de videojuegos retro completa dentro de una FPGA: 
                  │   + BRAM       │                                     │
                  │                ├── Framebuffer + barrido HUB75 ──────┼──► Panel LED 64×64
                  │                ├── Audio I2S ────────────────────────┼──► MAX98357A ► parlante
-                 │                ├── Controladores SPI / I2C ──────────┼──► SPI-RAM, Flash, EEPROM
+                 │                ├── Controladores SPI / I2C ──────────┼──► Flash, EEPROM
                  │                └── UART ─────────────────────────────┼──► PC (depuración)
                  └──────────────────────────────────────────────────────┘
 ```
@@ -42,7 +42,7 @@ Vamos a construir una consola de videojuegos retro completa dentro de una FPGA: 
 
 | Grupo | Tarea | Carpeta |
 | --- | --- | --- |
-| 1 | Memoria externa (SPI-RAM, Flash, EEPROM y récords) | [`grupo1-memoria-externa`](grupo1-memoria-externa) |
+| 1 | Memoria externa (Flash, EEPROM y récords) | [`grupo1-memoria-externa`](grupo1-memoria-externa) |
 | 2 | Joystick | [`grupo2-joystick`](grupo2-joystick) |
 | 3 | Audio (I2S hacia el amplificador) | [`grupo3-audio`](grupo3-audio) |
 | 4 | Pantalla (panel LED 64×64 HUB75 y framebuffer) | [`grupo4-pantalla`](grupo4-pantalla) |
@@ -65,7 +65,7 @@ Ventanas de 64 KB; registros cada 4 bytes. El grupo 6 lo mantiene actualizado.
 | --- | --- | --- |
 | `0x00_0000` | BRAM: programa, datos y pila (32 KB) | 6 |
 | `0x40_0000` | UART de depuración | 6 |
-| `0x41_0000` | Controlador SPI-RAM | 1 |
+| `0x41_0000` | Libre (antes SPI-RAM, descartada) | — |
 | `0x42_0000` | Controlador SPI-Flash | 1 |
 | `0x43_0000` | Receptor de teclado PS/2 | 2 |
 | `0x46_0000` | Maestro I2C (EEPROM) | 1 |
