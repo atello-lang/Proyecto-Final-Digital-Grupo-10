@@ -42,6 +42,11 @@ Diagramas de flujo (clic para abrirlos en draw.io):
 
 - [Diagrama de bloques, señales y tiempos](https://app.diagrams.net/#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fwwilchesc%2FProyecto-Final-Digital-Grupo-10%2Fmain%2Fgrupo1-memoria-externa%2Fdocs%2FGrupo1_Diagrama_Funcionamiento.drawio)
 
+## Hojas de datos
+
+- [EEPROM 24LC256 (Microchip, PDF)](docs/datasheets/24AA256-24LC256-24FC256-256K-I2C-Serial-EEPROM-DS20001203.pdf)
+- [Carpeta con todas las hojas de datos](docs/datasheets/)
+
 ## Registros
 
 | Desplazamiento | Nombre | Acceso | Descripción |
